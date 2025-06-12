@@ -1,0 +1,306 @@
+/* Import von modernen, spielerischen Schriftarten von Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Russo+One&display=swap");
+
+/* Globale Farb- und Stilvariablen für einfache Anpassungen */
+:root {
+  --bg-color-start: #2c3e50; /* Dunkelblau */
+  --bg-color-mid: #3e5a47; /* Dein Grün */
+  --bg-color-end: #311b92; /* Dunkles Lila/Violett */
+  --primary-color: #f3b61c; /* Dein Goldgelb */
+  --text-color: #f0f0f0;
+  --dark-text: #1d2b38;
+}
+
+/* --- Animierter Hintergrund mit grafischen Overlays --- */
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+  overflow: hidden; /* Verhindert Scrollbalken durch überstehende Grafiken */
+  position: relative; /* Wichtig für die Positionierung der Grafiken */
+
+  background: linear-gradient(
+    270deg,
+    var(--bg-color-start),
+    var(--bg-color-mid),
+    var(--bg-color-end)
+  );
+  background-size: 600% 600%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='600' height='600' viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 100 L200 200 L150 250 L250 350 M300 150 L400 50 L450 100 M150 450 L250 550 L350 450' stroke='white' stroke-width='2' fill='none'/%3E%3Ccircle cx='100' cy='100' r='5' fill='white'/%3E%3Ccircle cx='250' cy='350' r='5' fill='white'/%3E%3Ccircle cx='450' cy='100' r='5' fill='white'/%3E%3Ccircle cx='350' cy='450' r='5' fill='white'/%3E%3C/svg%3E");
+  background-position: top -10% left -15%;
+  background-size: 50vmax;
+}
+
+body::after {
+  background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='p' width='50' height='50' patternUnits='userSpaceOnUse'%3E%3Cpath d='M25 0 L50 25 L25 50 L0 25 Z' stroke='white' stroke-width='1' fill='none'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23p)'/%3E%3C/svg%3E");
+  background-position: bottom -15% right -20%;
+  background-size: 60vmax;
+}
+
+/* --- Stile für die neue Login-Seite (index.html) --- */
+.login-container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.form-container {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.form-box {
+  background: rgba(26, 37, 48, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 30px;
+  border-radius: 15px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-box h2 {
+  font-family: "Russo One", sans-serif;
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.input-field::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #5c6b7a;
+  color: var(--text-color);
+}
+
+.form-button.primary {
+  background: var(--primary-color);
+  color: var(--dark-text);
+}
+
+.form-button:hover {
+  transform: scale(1.03);
+}
+
+.code-display {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  min-height: 30px;
+}
+
+/* --- Stile für Hauptmenü & Titel (menu.html) --- */
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+#main-logo {
+  max-width: 80%;
+  height: 110px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-family: "Russo One", sans-serif;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 3em;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 300px;
+  margin-top: 40px;
+}
+
+.menu-button {
+  background: var(--primary-color);
+  color: var(--dark-text);
+  text-decoration: none;
+  padding: 16px 30px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-button:hover {
+  transform: translateY(-5px);
+  background: #ffde7d;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Stile für die Team-Anzeige im Menü --- */
+.session-info {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.9em;
+  backdrop-filter: blur(5px);
+}
+
+#logout-btn {
+  color: #ff8a80;
+  text-decoration: none;
+  margin-left: 15px;
+  font-weight: bold;
+}
+#logout-btn:hover {
+  text-decoration: underline;
+}
+
+/* --- Stile für die Unterseiten (fall.html etc.) --- */
+.page-container {
+  background: rgba(26, 37, 48, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-width: 800px;
+  width: 100%;
+  padding: 30px 40px;
+  border-radius: 20px;
+  text-align: left;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  font-family: "Russo One", sans-serif;
+  color: var(--primary-color);
+  margin: 0;
+  font-size: 2.2em;
+  letter-spacing: 1px;
+  text-shadow: none;
+}
+
+.back-button {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: var(--primary-color);
+  color: var(--dark-text);
+}
+
+.page-content p,
+.page-content ul {
+  font-size: 1.1em;
+  line-height: 1.8;
+}
+
+.page-content h3 {
+  font-family: "Russo One", sans-serif;
+  color: var(--primary-color);
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin-top: 30px;
+}
+
+.page-content ul {
+  list-style-type: "➤ ";
+  padding-left: 25px;
+}
+
+/* Allgemeine Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
