@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hinweise - Eragon Challenge</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="page-container">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-graphics"></div>
+    <div class="content-wrapper">
+      <div class="page-container">
         <header class="page-header">
-            <h2>Gesammelte Hinweise</h2>
-            <a href="index.html" class="back-button">← Zurück zum Menü</a>
+          <h2>Gesammelte Hinweise</h2>
+          <a href="menu.html" class="back-button">← Zurück zum Menü</a>
         </header>
-        <main class="page-content">
-            <p>Alle Hinweise, die ihr durch das Lösen der Aufgaben erhaltet, werden hier aufgelistet.</p>
+        <main class="page-content" id="clues-list">
+          <!-- Hinweise werden hier dynamisch per JavaScript eingefügt -->
         </main>
+      </div>
     </div>
-</body>
+    <script src="hinweise.js"></script>
+  </body>
 </html>

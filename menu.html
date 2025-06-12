@@ -1,35 +1,34 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eragon Challenge - Menü</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Zeigt den Teamnamen und den Logout-Button an -->
-    <div class="session-info">
-      <span>Team: <strong id="display-team-name"></strong></span>
-      <a href="#" id="logout-btn">Team verlassen</a>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-graphics">
+        <div class="grid-layer"></div>
     </div>
+    <div class="content-wrapper">
 
-    <!-- Das eigentliche Hauptmenü -->
-    <div class="menu-container">
-      <img
-        src="./assets/New-Project.png"
-        alt="Unser Hayat Logo"
-        id="main-logo"
-      />
-      <h1>Eragon Challenge</h1>
-      <nav class="menu-nav">
-        <a href="fall.html" class="menu-button">Fall</a>
-        <a href="verdaechtigte.html" class="menu-button">Verdächtigte</a>
-        <a href="hinweise.html" class="menu-button">Hinweise</a>
-        <a href="aufgaben.html" class="menu-button">Aufgaben</a>
-      </nav>
+        <div class="session-info">
+            <span>Team: <strong id="display-team-name"></strong></span>
+            <a href="#" id="logout-btn">Team verlassen</a>
+        </div>
+
+        <div class="menu-container">
+            <img src="/assets/New-Project.png" alt="Unser Hayat Logo" id="main-logo">
+            <h1>Eragon Challenge</h1>
+            <nav class="menu-nav">
+                <a href="fall.html" class="menu-button">Fall</a>
+                <a href="verdaechtigte.html" class="menu-button">Verdächtigte</a>
+                <a href="hinweise.html" class="menu-button">Hinweise</a>
+                <a href="aufgaben.html" class="menu-button">Aufgaben</a>
+            </nav>
+        </div>
+
     </div>
-
-    <!-- Verknüpfung zur JavaScript-Datei für die Menü-Logik -->
     <script src="menu.js"></script>
-  </body>
+</body>
 </html>

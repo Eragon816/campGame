@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aufgaben - Eragon Challenge</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="page-container">
-      <header class="page-header">
-        <h2>Aufgaben</h2>
-        <a href="index.html" class="back-button">← Zurück zum Menü</a>
-      </header>
-      <main class="page-content">
-        <p>
-          Hier findet ihr die Liste der Herausforderungen, die ihr meistern
-          müsst.
-        </p>
-      </main>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-graphics"></div>
+    <div class="content-wrapper">
+    
+        <div class="page-container">
+            <header class="page-header">
+                <h2>Aufgaben</h2>
+                <a href="menu.html" class="back-button">← Zurück zum Menü</a>
+            </header>
+            <main class="page-content" id="tasks-list">
+                <!-- Aufgaben werden hier dynamisch per JavaScript eingefügt -->
+            </main>
+        </div>
+
     </div>
-  </body>
+
+    <!-- HINWEIS-MODAL (Pop-up für freigeschaltete Hinweise) -->
+    <div id="clue-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-clue-title">Neuer Hinweis!</h2>
+            <p id="modal-clue-text">Hier steht der Text des Hinweises...</p>
+            <button id="modal-close-btn">Super!</button>
+        </div>
+    </div>
+
+    <script src="aufgaben.js"></script>
+</body>
 </html>

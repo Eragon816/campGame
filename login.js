@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const joinTeamCodeInput = document.getElementById("join-team-code");
   const joinTeamBtn = document.getElementById("join-team-btn");
 
-  // Funktion zum Generieren eines zufälligen 4-stelligen Codes
   function generateTeamCode() {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let code = "";
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return code;
   }
 
-  // Event Listener für "Team erstellen"
   createTeamBtn.addEventListener("click", () => {
     const teamName = createTeamNameInput.value.trim();
     if (teamName === "") {
@@ -27,14 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const newCode = generateTeamCode();
     teamCodeDisplay.textContent = `Dein Code: ${newCode}`;
-    teamCodeDisplay.style.color = "#f3b61c"; // Goldgelb
+    teamCodeDisplay.style.color = "#f3b61c";
 
-    // Füllt die Felder im "Beitreten"-Bereich aus, um es einfacher zu machen
     joinTeamNameInput.value = teamName;
     joinTeamCodeInput.value = newCode;
   });
 
-  // Event Listener für "Spiel starten" (Beitritts-Button)
   joinTeamBtn.addEventListener("click", () => {
     const teamName = joinTeamNameInput.value.trim();
     const teamCode = joinTeamCodeInput.value.trim().toUpperCase();
@@ -44,12 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Speichere die Team-Infos im Browser des Spielers
-    // Dies ist der "simulierte" Login
     localStorage.setItem("eragon-team-name", teamName);
     localStorage.setItem("eragon-team-code", teamCode);
 
-    // Leite den Spieler zum Hauptmenü weiter
+    // WICHTIG: Setzt den Spielfortschritt zurück, wenn ein neues Team beitritt
+    localStorage.removeItem("eragon-progress");
+
     window.location.href = "menu.html";
   });
 });
