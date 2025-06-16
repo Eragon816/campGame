@@ -1,22 +1,9 @@
+// menu.js - Spezifische Logik für die Menü-Seite
+
 document.addEventListener("DOMContentLoaded", () => {
-  const teamNameDisplay = document.getElementById("display-team-name");
-  const logoutBtn = document.getElementById("logout-btn");
+  // Alle gemeinsamen Funktionen (Session Info, Logout, Mute-Button, Klick-Sounds)
+  // werden jetzt von shared.js und sound-manager.js gehandhabt.
 
-  const teamName = localStorage.getItem("eragon-team-name");
-
-  if (teamName) {
-    teamNameDisplay.textContent = teamName;
-  } else {
-    window.location.href = "index.html";
-  }
-
-  logoutBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    localStorage.removeItem("eragon-team-name");
-    localStorage.removeItem("eragon-team-code");
-    localStorage.removeItem("eragon-progress");
-
-    window.location.href = "index.html";
-  });
+  // Hier könnte in Zukunft menü-spezifische Logik platziert werden.
+  console.log("Menü-Seite geladen.");
 });

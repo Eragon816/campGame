@@ -3,25 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eragon Challenge - Team beitreten</title>
+    <title>Der Hayat-Code - Team beitreten</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="background-graphics">
-      <div class="grid-layer"></div>
+    <div class="fixed-controls">
+      <div>
+        <button id="mute-btn"><span>🔊</span></button>
+        <button id="theme-btn"><span>☀️</span></button>
+      </div>
+      <div></div>
     </div>
+
+    <canvas id="canvas-background"></canvas>
+
     <div class="content-wrapper">
-      <div class="login-container">
+      <div id="start-screen" class="login-container">
+        <h1>Der Hayat-Code</h1>
+        <button
+          id="enter-game-btn"
+          class="form-button primary"
+          style="margin-top: 30px; transform: scale(1.2)"
+        >
+          Spiel betreten
+        </button>
+        <!-- Logo hier, um auf dem Startbildschirm zu sein -->
         <img
           src="./assets/New-Project.png"
           alt="Unser Hayat Logo"
           id="main-logo"
         />
-        <h1>Eragon Challenge</h1>
+      </div>
 
+      <div
+        id="login-form-container"
+        class="login-container"
+        style="display: none"
+      >
+        <h1>Der Hayat-Code</h1>
         <div class="form-container">
+          <!-- === NEUE, MODERNE FORMULAR-STRUKTUR === -->
           <div class="form-box">
-            <h2>Neues Team erstellen</h2>
             <input
               type="text"
               id="create-team-name"
@@ -36,8 +58,9 @@
             </div>
           </div>
 
+          <div class="form-divider">ODER</div>
+
           <div class="form-box">
-            <h2>Team beitreten</h2>
             <input
               type="text"
               id="join-team-name"
@@ -54,9 +77,19 @@
               Spiel starten
             </button>
           </div>
+          <!-- === ENDE NEUE STRUKTUR === -->
         </div>
+        <!-- Logo hier, um innerhalb des Login-Containers zu sein -->
+        <img
+          src="./assets/New-Project.png"
+          alt="Unser Hayat Logo"
+          id="main-logo"
+        />
       </div>
     </div>
+
     <script src="login.js"></script>
+    <script src="background.js"></script>
+    <script src="global.js"></script>
   </body>
 </html>

@@ -3,12 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verdächtigte - Eragon Challenge</title>
+    <title>Verdächtigte - Der Hayat-Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="background-graphics"></div>
-    <div class="content-wrapper">
+    <div class="fixed-controls">
+      <div>
+        <!-- Linke Seite -->
+        <button id="mute-btn"><span>🔊</span></button>
+        <button id="theme-btn"><span>☀️</span></button>
+      </div>
+      <div class="session-info">
+        <!-- Rechte Seite -->
+        <span>Team: <strong id="display-team-name"></strong></span>
+        <a href="#" id="logout-btn">Team verlassen</a>
+      </div>
+    </div>
+
+    <canvas id="canvas-background"></canvas>
+
+    <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
           <h2>Die Verdächtigen</h2>
@@ -18,9 +32,8 @@
           <div class="suspects-list">
             <div class="suspect-card">
               <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
                 alt="Profilbild"
-                class="suspect-image"
               />
               <h3 class="suspect-name">Mahmoud</h3>
               <blockquote class="suspect-statement">
@@ -32,60 +45,11 @@
                 </p>
               </blockquote>
             </div>
+            <!-- ... alle anderen Verdächtigen ... -->
             <div class="suspect-card">
               <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
                 alt="Profilbild"
-                class="suspect-image"
-              />
-              <h3 class="suspect-name">Majd</h3>
-              <blockquote class="suspect-statement">
-                <p>
-                  "Ich war die meiste Zeit draußen, der Empfang ist einfach
-                  besser. Ich hab mit meiner Familie telefoniert. Als ich wieder
-                  reinkam, war die Stimmung schon komisch. Ich hab nichts
-                  mitbekommen."
-                </p>
-              </blockquote>
-            </div>
-            <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild"
-                class="suspect-image"
-              />
-              <h3 class="suspect-name">Esther</h3>
-              <blockquote class="suspect-statement">
-                <p>
-                  "Ich hab mich furchtbar über Rami geärgert, weil er so
-                  rücksichtslos an mir vorbeigestürmt ist, als ich gerade in der
-                  Küche war. Später habe ich dann gehört, dass der Pokal weg
-                  ist. Vielleicht war er so wütend, dass er ihn einfach
-                  mitgenommen hat."
-                </p>
-              </blockquote>
-            </div>
-            <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild"
-                class="suspect-image"
-              />
-              <h3 class="suspect-name">Rami</h3>
-              <blockquote class="suspect-statement">
-                <p>
-                  "Ja, ich war sauer, weil das WLAN für die Online-Games so mies
-                  ist. Ich bin in den Keller, um mich abzureagieren. Als ich
-                  hochkam, war Esther total komisch zu mir. Keine Ahnung, was
-                  ihr Problem ist. Mit dem Pokal hab ich nichts am Hut."
-                </p>
-              </blockquote>
-            </div>
-            <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild"
-                class="suspect-image"
               />
               <h3 class="suspect-name">Motaz</h3>
               <blockquote class="suspect-statement">
@@ -102,5 +66,8 @@
         </main>
       </div>
     </div>
+
+    <script src="background.js"></script>
+    <script src="global.js"></script>
   </body>
 </html>

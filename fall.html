@@ -3,12 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Der Fall - Eragon Challenge</title>
+    <title>Der Fall - Der Hayat-Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="background-graphics"></div>
-    <div class="content-wrapper">
+    <div class="fixed-controls">
+      <div>
+        <!-- Linke Seite -->
+        <button id="mute-btn"><span>🔊</span></button>
+        <button id="theme-btn"><span>☀️</span></button>
+      </div>
+      <div class="session-info">
+        <!-- Rechte Seite -->
+        <span>Team: <strong id="display-team-name"></strong></span>
+        <a href="#" id="logout-btn">Team verlassen</a>
+      </div>
+    </div>
+
+    <canvas id="canvas-background"></canvas>
+
+    <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
           <h2>Der Fall</h2>
@@ -24,11 +38,11 @@
           </p>
           <h3>Die Mission</h3>
           <p>
-            Die Teams schlüpfen in die Rolle von "Talent-Scouts". Ihre Mission
-            ist es, die Herausforderungen des Diebes zu meistern, um zu
-            beweisen, dass sie würdig sind. Mit jeder erfolgreich absolvierten
-            Aufgabe sammeln sie Hinweise, die sie dem Täter, seinem Motiv und
-            dem Tathergang näherbringen. Die Zeit drängt, denn der große
+            Die Teams schlüpfen in die Rolle von "Ermittlern". Ihre Mission ist
+            es, die Herausforderungen des Diebes zu meistern, um zu beweisen,
+            dass sie würdig sind. Mit jeder erfolgreich absolvierten Aufgabe
+            sammeln sie Hinweise, die sie dem Täter, seinem Motiv und dem
+            Tathergang näherbringen. Die Zeit drängt, denn der große
             Camp-Abschlussabend steht bevor!
           </p>
           <h3>Die finalen Fragen (am Ende des Spiels)</h3>
@@ -41,5 +55,8 @@
         </main>
       </div>
     </div>
+
+    <script src="background.js"></script>
+    <script src="global.js"></script>
   </body>
 </html>
