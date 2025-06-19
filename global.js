@@ -1,7 +1,13 @@
 // global.js - Enthält ALLE gemeinsamen und globalen Funktionen
 
 document.addEventListener("DOMContentLoaded", () => {
-  // --- 1. THEME-LOGIK ---
+  // --- NEU: GRUPPENFARBE ANWENDEN ---
+  const groupColor = localStorage.getItem("eragon-group-color");
+  if (groupColor) {
+    document.body.style.setProperty("--primary-color", groupColor);
+  }
+
+  // --- 1. THEME-LOGIK --- (Rest unverändert)
   const themeBtn = document.getElementById("theme-btn");
   const applyTheme = (theme) => {
     document.body.classList.remove("light-mode", "dark-mode");
@@ -23,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
       applyTheme(currentTheme);
     });
   }
-  // Initiales Theme anwenden
   applyTheme(localStorage.getItem("theme") || "dark");
 
-  // --- 2. SOUND-LOGIK ---
+  // --- 2. SOUND-LOGIK --- (unverändert)
+  // ... (Der gesamte Sound-Logik-Block bleibt hier unverändert) ...
   const backgroundMusic = new Audio("./sound/background-music.mp3");
   backgroundMusic.loop = true;
   const clickSound = new Audio("./sound/click.mp3");
@@ -87,8 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
       backgroundMusic.play().catch((e) => {});
     }
   }
-
-  // Initialen Mute-Status anwenden
   updateMuteState();
 
   // --- 3. SESSION-INFO & LOGOUT-LOGIK ---
@@ -100,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (teamName) {
       teamNameDisplay.textContent = teamName;
     } else {
+      // Wenn kein Teamname da ist, zurück zum Login
       window.location.href = "index.html";
     }
   }
@@ -109,9 +114,18 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       window.playSound("click");
 
+      // WICHTIG: Die gruppenspezifischen Daten müssen hier entfernt werden
+      const groupCode = localStorage.getItem("eragon-group-code");
+      if (groupCode) {
+        localStorage.removeItem(`eragon-progress-${groupCode}`);
+      }
+
+      // Alte und neue Session-Daten entfernen
       localStorage.removeItem("eragon-team-name");
-      localStorage.removeItem("eragon-team-code");
-      localStorage.removeItem("eragon-progress");
+      localStorage.removeItem("eragon-group-id");
+      localStorage.removeItem("eragon-group-code");
+      localStorage.removeItem("eragon-group-color");
+      localStorage.removeItem("eragon-progress"); // Vorsichtshalber entfernen
       localStorage.removeItem("music-was-started");
       localStorage.removeItem("theme");
       localStorage.removeItem("isMuted");
@@ -122,7 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 4. GLOBALE BUTTON-KLICK-SOUNDS ---
+  // --- 4. GLOBALE BUTTON-KLICK-SOUNDS --- (unverändert)
+  // ... (Der gesamte Button-Klick-Sound-Block bleibt hier unverändert) ...
   document
     .querySelectorAll(
       ".form-button, .menu-button, .back-button, #modal-close-btn, #enter-game-btn"

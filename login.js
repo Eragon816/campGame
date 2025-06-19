@@ -1,55 +1,78 @@
+// login.js - Logik für den Gruppen-Beitritt
+
+// NEU: Importiert die gameGroups-Variable aus der groups.js-Datei.
+import { gameGroups } from "./groups.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Elemente des Startbildschirms
   const startScreen = document.getElementById("start-screen");
   const enterGameBtn = document.getElementById("enter-game-btn");
   const loginFormContainer = document.getElementById("login-form-container");
 
-  const createTeamNameInput = document.getElementById("create-team-name");
-  const createTeamBtn = document.getElementById("create-team-btn");
-  const teamCodeDisplay = document.getElementById("team-code-display");
-  const joinTeamNameInput = document.getElementById("join-team-name");
-  const joinTeamCodeInput = document.getElementById("join-team-code");
-  const joinTeamBtn = document.getElementById("join-team-btn");
+  // Elemente des neuen Login-Formulars
+  const groupSelect = document.getElementById("group-select");
+  const groupCodeInput = document.getElementById("group-code-input");
+  const joinGroupBtn = document.getElementById("join-group-btn");
+  const loginError = document.getElementById("login-error");
 
-  // Zeigt das Login-Formular an und startet die Musik über die globale Funktion
+  // Zeigt das Login-Formular an und startet die Musik
   enterGameBtn.addEventListener("click", () => {
-    if (window.startMusic) window.startMusic(); // KORRIGIERT: Startet die Musik sofort
-
+    if (window.startMusic) window.startMusic();
     startScreen.style.display = "none";
     loginFormContainer.style.display = "flex";
   });
 
-  function generateTeamCode() {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let code = "";
-    for (let i = 0; i < 4; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
+  // Fülle das Dropdown-Menü mit den Gruppen aus groups.js
+  if (gameGroups && groupSelect) {
+    gameGroups.forEach((group) => {
+      const option = document.createElement("option");
+      option.value = group.id;
+      option.textContent = group.name;
+      groupSelect.appendChild(option);
+    });
   }
 
-  createTeamBtn.addEventListener("click", () => {
-    const teamName = createTeamNameInput.value.trim();
-    if (teamName === "") {
-      alert("Bitte gib einen Teamnamen ein, um ein Team zu erstellen.");
-      return;
-    }
-    const newCode = generateTeamCode();
-    teamCodeDisplay.textContent = `Dein Code: ${newCode}`;
-    teamCodeDisplay.style.color = "#f3b61c";
-    joinTeamNameInput.value = teamName;
-    joinTeamCodeInput.value = newCode;
-  });
+  // Funktion zum Beitreten einer Gruppe
+  function joinGroup() {
+    const selectedGroupId = groupSelect.value;
+    const enteredCode = groupCodeInput.value.trim().toUpperCase();
+    loginError.style.display = "none";
 
-  joinTeamBtn.addEventListener("click", () => {
-    const teamName = joinTeamNameInput.value.trim();
-    const teamCode = joinTeamCodeInput.value.trim().toUpperCase();
-    if (teamName === "" || teamCode === "") {
-      alert("Bitte gib deinen Teamnamen und den Team-Code ein.");
+    if (!selectedGroupId || !enteredCode) {
+      loginError.textContent = "Bitte wähle eine Gruppe und gib den Code ein.";
+      loginError.style.display = "block";
       return;
     }
-    localStorage.setItem("eragon-team-name", teamName);
-    localStorage.setItem("eragon-team-code", teamCode);
-    localStorage.removeItem("eragon-progress");
-    window.location.href = "menu.html";
+
+    const selectedGroup = gameGroups.find(
+      (g) => g.id.toString() === selectedGroupId
+    );
+
+    if (selectedGroup && selectedGroup.code === enteredCode) {
+      // Erfolg! Speichere die Gruppendaten im localStorage
+      localStorage.setItem("eragon-team-name", selectedGroup.name);
+      localStorage.setItem("eragon-group-id", selectedGroup.id);
+      localStorage.setItem("eragon-group-code", selectedGroup.code);
+      localStorage.setItem("eragon-group-color", selectedGroup.color);
+
+      window.location.href = "menu.html";
+    } else {
+      // Fehler! Falscher Code oder keine Gruppe gefunden.
+      loginError.textContent =
+        "Der Gruppen-Code ist falsch. Versuche es erneut.";
+      loginError.style.display = "block";
+      groupCodeInput.classList.add("shake");
+      setTimeout(() => groupCodeInput.classList.remove("shake"), 500);
+    }
+  }
+
+  joinGroupBtn.addEventListener("click", joinGroup);
+
+  // Erlaube das Beitreten auch mit der Enter-Taste
+  groupCodeInput.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      joinGroupBtn.click();
+    }
   });
 });

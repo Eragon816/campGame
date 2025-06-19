@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Der Hayat-Code - Team beitreten</title>
+    <title>Der Hayat-Code - Gruppe beitreten</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="fixed-controls">
       <div>
-        <button id="mute-btn"><span>🔊</span></button>
-        <button id="theme-btn"><span>☀️</span></button>
+        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
+        <button id="theme-btn" aria-label="Farbschema wechseln">
+          <span>☀️</span>
+        </button>
       </div>
       <div></div>
     </div>
@@ -27,7 +29,6 @@
         >
           Spiel betreten
         </button>
-        <!-- Logo hier, um auf dem Startbildschirm zu sein -->
         <img
           src="./assets/New-Project.png"
           alt="Unser Hayat Logo"
@@ -40,46 +41,28 @@
         class="login-container"
         style="display: none"
       >
-        <h1>Der Hayat-Code</h1>
+        <h1>Gruppe beitreten</h1>
         <div class="form-container">
-          <!-- === NEUE, MODERNE FORMULAR-STRUKTUR === -->
           <div class="form-box">
+            <select id="group-select" class="input-field">
+              <option value="">-- Wähle deine Gruppe --</option>
+              <!-- Optionen werden per JS eingefügt -->
+            </select>
             <input
               type="text"
-              id="create-team-name"
-              placeholder="Gib deinen Teamnamen ein"
+              id="group-code-input"
+              placeholder="Gruppen-Code eingeben"
               class="input-field"
             />
-            <button id="create-team-btn" class="form-button">
-              Team erstellen & Code erhalten
-            </button>
-            <div class="code-display" id="team-code-display">
-              Dein Team-Code erscheint hier...
-            </div>
-          </div>
-
-          <div class="form-divider">ODER</div>
-
-          <div class="form-box">
-            <input
-              type="text"
-              id="join-team-name"
-              placeholder="Dein Teamname"
-              class="input-field"
-            />
-            <input
-              type="text"
-              id="join-team-code"
-              placeholder="Team-Code eingeben"
-              class="input-field"
-            />
-            <button id="join-team-btn" class="form-button primary">
+            <button id="join-group-btn" class="form-button primary">
               Spiel starten
             </button>
+            <p
+              id="login-error"
+              style="color: var(--error-color); display: none; margin-top: 10px"
+            ></p>
           </div>
-          <!-- === ENDE NEUE STRUKTUR === -->
         </div>
-        <!-- Logo hier, um innerhalb des Login-Containers zu sein -->
         <img
           src="./assets/New-Project.png"
           alt="Unser Hayat Logo"
@@ -88,8 +71,11 @@
       </div>
     </div>
 
-    <script src="login.js"></script>
-    <script src="background.js"></script>
-    <script src="global.js"></script>
+    <!-- Die Skripte werden jetzt als Module geladen -->
+    <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="groups.js"></script>
+    <script type="module" src="login.js"></script>
+    <script type="module" src="background.js"></script>
+    <script type="module" src="global.js"></script>
   </body>
 </html>

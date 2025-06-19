@@ -10,8 +10,10 @@
     <div class="fixed-controls">
       <div>
         <!-- Linke Seite -->
-        <button id="mute-btn"><span>🔊</span></button>
-        <button id="theme-btn"><span>☀️</span></button>
+        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
+        <button id="theme-btn" aria-label="Farbschema wechseln">
+          <span>☀️</span>
+        </button>
       </div>
       <div class="session-info">
         <!-- Rechte Seite -->
@@ -25,11 +27,19 @@
     <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
-          <h2>Aufgaben</h2>
+          <h2>Aufgaben-Karte</h2>
           <a href="menu.html" class="back-button">← Zurück zum Menü</a>
         </header>
-        <main class="page-content" id="tasks-list">
-          <!-- Aufgaben werden hier dynamisch per JavaScript eingefügt -->
+        <main class="page-content">
+          <!-- Visuelle Karte der Aufgaben -->
+          <div id="tasks-map-container">
+            <!-- Map-Stationen werden hier dynamisch per JavaScript eingefügt -->
+          </div>
+
+          <!-- Container für die jeweils aktive Aufgabe -->
+          <div id="current-task-display" style="display: none">
+            <!-- Inhalt wird dynamisch per JavaScript eingefügt -->
+          </div>
         </main>
       </div>
     </div>
@@ -42,9 +52,11 @@
       </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="aufgaben.js"></script>
-    <script src="background.js"></script>
-    <script src="global.js"></script>
+    <!-- Die Skripte werden jetzt als Module geladen -->
+    <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="data.js"></script>
+    <script type="module" src="aufgaben.js"></script>
+    <script type="module" src="background.js"></script>
+    <script type="module" src="global.js"></script>
   </body>
 </html>

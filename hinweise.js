@@ -1,14 +1,27 @@
+// hinweise.js - mit FIREBASE v9 Integration
+
+// Importiert die benötigten Daten aus data.js
+import { allClues } from "./data.js";
+
+import { db } from "./firebase-init.js";
+import {
+  ref,
+  get,
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Die Daten (allClues) werden jetzt aus data.js geladen.
-
   const cluesListContainer = document.getElementById("clues-list");
+  const groupCode = localStorage.getItem("eragon-group-code");
 
-  const progress = JSON.parse(localStorage.getItem("eragon-progress")) || {
-    unlockedClues: [],
-  };
-  const unlockedCluesIds = progress.unlockedClues;
+  if (!groupCode) {
+    cluesListContainer.innerHTML =
+      "<p>Keine Gruppe gefunden. Bitte melde dich zuerst an.</p>";
+    return;
+  }
 
-  function renderClues() {
+  const groupProgressRef = ref(db, "progress/" + groupCode);
+
+  function renderClues(unlockedCluesIds = []) {
     cluesListContainer.innerHTML = "";
     const unlockedClues = allClues.filter((clue) =>
       unlockedCluesIds.includes(clue.id)
@@ -20,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Sortiere die Hinweise nach ihrer ID, damit sie immer in der gleichen Reihenfolge erscheinen
     unlockedClues.sort((a, b) => a.id - b.id);
 
     unlockedClues.forEach((clue) => {
@@ -34,5 +46,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  renderClues();
+  get(groupProgressRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const progress = snapshot.val();
+        renderClues(progress.unlockedClues || []);
+      } else {
+        renderClues([]);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      cluesListContainer.innerHTML = "<p>Fehler beim Laden der Hinweise.</p>";
+    });
 });

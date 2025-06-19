@@ -1,6 +1,7 @@
 // data.js - Zentrale Spieldaten für die Eragon Challenge
 
-const allClues = [
+// 'export' hinzugefügt, damit andere Module darauf zugreifen können
+export const allClues = [
   {
     id: 1,
     type: "Zettel",
@@ -103,7 +104,8 @@ const allClues = [
   },
 ];
 
-const tasks = [
+// 'export' hinzugefügt, damit andere Module darauf zugreifen können
+export const tasks = [
   {
     id: 1,
     day: 1,

@@ -120,6 +120,9 @@ body {
   flex-direction: column;
   gap: 15px;
 }
+.code-display {
+  transition: all 0.2s ease-in-out;
+}
 .form-divider {
   display: flex;
   align-items: center;
@@ -190,7 +193,6 @@ h1 {
   margin-top: 25px;
 }
 
-/* === KORRIGIERT: EINHEITLICHE BUTTON-STILE === */
 .menu-button,
 .form-button,
 .check-button {
@@ -228,12 +230,11 @@ body.dark-mode .form-button {
   border-color: #8180f0;
 }
 
-/* === KORRIGIERT: "Zurück zum Menü"-Button === */
 .back-button {
   text-decoration: none;
   font-weight: 500;
   padding: 8px 18px;
-  border: 2px solid transparent; /* Unsichtbarer Rand für Konsistenz */
+  border: 2px solid transparent;
   color: var(--text-color);
   opacity: 0.8;
   border-radius: 50px;
@@ -248,14 +249,83 @@ body.dark-mode .form-button {
 }
 
 /* --- 5. SPEZIFISCHE KOMPONENTEN --- */
+
+/* 5.1 VERDÄCHTIGE */
 .suspects-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
 }
-.suspect-image {
-  fill: var(--svg-fill-color) !important;
+.suspect-card {
+  background: var(--input-bg);
+  border: 1px solid var(--container-border-color);
+  border-radius: 16px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
+.suspect-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  padding: 5px;
+  margin-bottom: 15px;
+}
+.suspect-name {
+  font-family: "Russo One", sans-serif;
+  color: var(--primary-color);
+  font-size: var(--font-size-lg);
+  margin: 0 0 15px 0;
+}
+.suspect-statement {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.suspect-statement p {
+  margin: 0;
+  font-style: italic;
+  opacity: 0.8;
+  quotes: "“" "”";
+}
+.suspect-statement p::before {
+  content: open-quote;
+}
+.suspect-statement p::after {
+  content: close-quote;
+}
+.suspect-image {
+  fill: #fff; /* White icon fill on colored background */
+}
+
+/* 5.2 HINWEISE */
+#clues-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+.clue-card {
+  background: var(--input-bg);
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid var(--primary-color);
+}
+.clue-type {
+  margin: 0 0 10px 0;
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.1em;
+}
+.clue-text {
+  margin: 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* 5.3 CODE EINGABE (wird in aufgaben.js wiederverwendet) */
 .task-action-area {
   background: var(--input-bg);
   border-radius: 12px;
@@ -282,14 +352,192 @@ body.dark-mode .form-button {
   flex-shrink: 0;
   padding: 0 30px;
 }
+.task-card {
+  /* Generischer Stil für Aufgaben-Karten */
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--container-border-color);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+.task-title {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: 500;
+  color: var(--text-color-strong);
+}
+.task-description {
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+/* 5.4 AUFGABEN-KARTE (FARBIG) - DESKTOP-ANSICHT */
+#tasks-map-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px 40px; /* Vertikaler und horizontaler Abstand */
+  padding: 30px 10px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* TAGES-TRENNER */
+.map-day-divider {
+  flex-basis: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--text-color-strong);
+  font-family: "Russo One", sans-serif;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 40px 0 25px 0;
+}
+#tasks-map-container > .map-day-divider:first-of-type {
+  margin-top: 10px;
+}
+.map-day-divider span {
+  padding: 0 15px;
+  white-space: nowrap;
+}
+.map-day-divider::before,
+.map-day-divider::after {
+  content: "";
+  flex-grow: 1;
+  height: 2px;
+  background: var(--container-border-color);
+  border-radius: 2px;
+}
+.map-day-divider[data-day="1"]::before,
+.map-day-divider[data-day="1"]::after {
+  background: #e74c3c;
+}
+.map-day-divider[data-day="2"]::before,
+.map-day-divider[data-day="2"]::after {
+  background: #3498db;
+}
+.map-day-divider[data-day="3"]::before,
+.map-day-divider[data-day="3"]::after {
+  background: #f1c40f;
+}
+.map-day-divider[data-day="4"]::before,
+.map-day-divider[data-day="4"]::after {
+  background: #2ecc71;
+}
+
+/* MAP-STATIONEN */
+.map-node {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.5em;
+  color: #fff;
+  position: relative;
+  transition: all 0.4s ease;
+  border: 3px solid;
+}
+
+.map-node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 40px;
+  background-color: var(--container-border-color);
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+.map-node.locked {
+  background-color: var(--input-bg);
+  border-color: var(--container-border-color);
+  color: var(--text-color);
+  opacity: 0.6;
+}
+.map-node.locked .lock-icon {
+  font-size: 0.8em;
+}
+
+#current-task-display {
+  margin-top: 20px;
+}
+.task-card.active-task {
+  border: 2px solid var(--day-color, var(--primary-color));
+  box-shadow: 0 0 15px var(--day-color, var(--primary-color));
+}
+
+/* FARBKODIERUNG DER MAP-STATIONEN */
+.map-node[data-day="1"].active,
+.map-node[data-day="1"].completed {
+  background-color: #e74c3c;
+  border-color: #fff;
+}
+.map-node[data-day="1"].active {
+  animation: pulse-day1 2s infinite;
+}
+.map-node[data-day="1"].completed::after {
+  background: linear-gradient(90deg, #e74c3c, #3498db);
+}
+
+.map-node[data-day="2"].active,
+.map-node[data-day="2"].completed {
+  background-color: #3498db;
+  border-color: #fff;
+}
+.map-node[data-day="2"].active {
+  animation: pulse-day2 2s infinite;
+}
+.map-node[data-day="2"].completed::after {
+  background: linear-gradient(90deg, #3498db, #f1c40f);
+}
+
+.map-node[data-day="3"].active,
+.map-node[data-day="3"].completed {
+  background-color: #f1c40f;
+  border-color: #fff;
+  color: #333;
+}
+.map-node[data-day="3"].active {
+  animation: pulse-day3 2s infinite;
+}
+.map-node[data-day="3"].completed::after {
+  background: linear-gradient(90deg, #f1c40f, #2ecc71);
+}
+
+.map-node[data-day="4"].active,
+.map-node[data-day="4"].completed {
+  background-color: #2ecc71;
+  border-color: #fff;
+}
+.map-node[data-day="4"].active {
+  animation: pulse-day4 2s infinite;
+}
+
+/* 5.5 SONSTIGE KOMPONENTEN */
 #main-logo {
   height: 60px;
   margin-top: auto;
   padding-top: 30px;
   opacity: 0.8;
-} /* auto-margin sorgt für flexible Positionierung */
+}
 
-/* --- 6. ÜBERLAGERNDE ELEMENTE --- */
+/* --- 6. ÜBERLAGERNDE ELEMENTE & ANIMATIONEN --- */
 .fixed-controls {
   position: fixed;
   top: 15px;
@@ -302,14 +550,13 @@ body.dark-mode .form-button {
   pointer-events: none;
 }
 
-/* === KORRIGIERT: Mute- & Theme-Buttons ohne Rahmen === */
 #mute-btn,
 #theme-btn {
   background: transparent;
   border: none;
   color: var(--text-color);
   cursor: pointer;
-  font-size: 1.8em; /* Etwas größer für bessere Sichtbarkeit */
+  font-size: 1.8em;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -350,4 +597,308 @@ body.dark-mode .form-button {
   color: var(--error-color);
   text-decoration: none;
   font-weight: 500;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-content {
+  background: var(--container-bg);
+  padding: clamp(25px, 5vw, 40px);
+  border-radius: 24px;
+  border: 1px solid var(--container-border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+.modal-overlay.visible .modal-content {
+  transform: scale(1);
+}
+#modal-clue-title {
+  color: var(--primary-color);
+  margin-top: 0;
+  font-family: "Russo One", sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+.shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes pulse-day1 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    transform: scale(1.1);
+  }
+  70% {
+    box-shadow: 0 0 10px 20px rgba(231, 76, 60, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    transform: scale(1.1);
+  }
+}
+@keyframes pulse-day2 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+    transform: scale(1.1);
+  }
+  70% {
+    box-shadow: 0 0 10px 20px rgba(52, 152, 219, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+    transform: scale(1.1);
+  }
+}
+@keyframes pulse-day3 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7);
+    transform: scale(1.1);
+  }
+  70% {
+    box-shadow: 0 0 10px 20px rgba(241, 196, 15, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(241, 196, 15, 0);
+    transform: scale(1.1);
+  }
+}
+@keyframes pulse-day4 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    transform: scale(1.1);
+  }
+  70% {
+    box-shadow: 0 0 10px 20px rgba(46, 204, 113, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    transform: scale(1.1);
+  }
+}
+
+/* --- 7. RESPONSIVE DESIGN (ANPASSUNGEN FÜR MOBILE GERÄTE) --- */
+
+/* Breakpoint für Tablets und größere Smartphones */
+@media (max-width: 768px) {
+  /* Allgemeinen Container-Abstand für mehr Platz reduzieren */
+  .page-container,
+  .login-container {
+    padding: clamp(20px, 4vw, 30px);
+  }
+  .content-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* Seiten-Header untereinander anordnen */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* Fixierte Steuerungselemente anpassen */
+  .fixed-controls {
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+  }
+  #mute-btn,
+  #theme-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.5em;
+  }
+  .session-info {
+    padding: 6px 12px;
+    gap: 10px;
+    font-size: 0.9em;
+  }
+
+  /* WICHTIG: Aufgaben-Karte wird zu einem stabilen vertikalen GRID */
+  #tasks-map-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Eine einzige Spalte */
+    justify-items: center; /* Zentriert alle Elemente horizontal */
+    gap: 20px; /* Vertikaler Abstand zwischen den Grid-Items */
+    padding: 20px 0;
+  }
+
+  /* Tages-Trenner für mobile Ansicht anpassen */
+  .map-day-divider {
+    margin: 10px 0; /* Reduzierter Abstand */
+    font-size: 1em;
+    width: 90%;
+  }
+
+  /* Kleinere Map-Nodes auf Mobilgeräten */
+  .map-node {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Verbindungslinie wird ebenfalls vertikal */
+  .map-node:not(:last-child)::after {
+    top: 100%; /* Startet am unteren Rand der Station */
+    left: 50%; /* Zentriert horizontal */
+    transform: translateX(-50%);
+    width: 4px; /* Breite der vertikalen Linie */
+    height: 20px; /* Länge der Linie (gleich dem grid-gap) */
+  }
+
+  /* Farbverläufe der Linien anpassen auf vertikal */
+  .map-node[data-day="1"].completed::after {
+    background: linear-gradient(180deg, #e74c3c, #3498db);
+  }
+  .map-node[data-day="2"].completed::after {
+    background: linear-gradient(180deg, #3498db, #f1c40f);
+  }
+  .map-node[data-day="3"].completed::after {
+    background: linear-gradient(180deg, #f1c40f, #2ecc71);
+  }
+
+  /* Blendet die Verbindungslinie nach der letzten Aufgabe eines Tages (oder der allerletzten Aufgabe) aus. */
+  .map-node.is-day-end::after {
+    content: none;
+  }
+
+  /* Code-Eingabe-Bereich kompakter gestalten */
+  .code-input {
+    font-size: clamp(1.2rem, 8vw, 1.8rem);
+  }
+  .check-button {
+    padding: 0 20px;
+    font-size: 1em;
+  }
+}
+
+/* NEU: Breakpoint für sehr kleine Smartphones (z.B. iPhone SE) */
+@media (max-width: 480px) {
+  /* Kleinere Hauptüberschrift */
+  h1 {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+  }
+
+  /* Kleinere Seitenüberschriften */
+  .page-header h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Oberen Abstand reduzieren, um mehr Platz zu schaffen */
+  .content-wrapper {
+    padding-top: 80px;
+    padding-bottom: 20px;
+  }
+
+  /* Container-Padding weiter reduzieren */
+  .page-container,
+  .login-container {
+    padding: 20px 15px;
+    border-radius: 16px;
+  }
+
+  /* Buttons etwas verkleinern, aber klickbar halten */
+  .menu-button,
+  .form-button,
+  .check-button {
+    padding: 14px 20px;
+    font-size: 1em;
+  }
+
+  /* Abstand im Formular verringern */
+  .form-container {
+    gap: 20px;
+  }
+  .form-box {
+    gap: 12px;
+  }
+
+  /* Abstand zwischen den Verdächtigen-Karten reduzieren */
+  .suspects-list {
+    gap: 20px;
+  }
+  .suspect-card {
+    padding: 20px;
+  }
+
+  /* Code-Eingabebereich kompakter machen */
+  .task-action-area {
+    padding: 15px;
+    margin-top: 20px;
+  }
+  .code-input {
+    font-size: 1.2rem;
+  }
+  .check-button {
+    padding: 0 15px;
+  }
+
+  /* Logo verkleinern und Abstand anpassen */
+  #main-logo {
+    height: 50px;
+    padding-top: 20px;
+  }
+
+  /* Fixierte Steuerelemente noch näher an den Rand rücken */
+  .fixed-controls {
+    top: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+  }
 }

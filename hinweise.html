@@ -10,8 +10,10 @@
     <div class="fixed-controls">
       <div>
         <!-- Linke Seite -->
-        <button id="mute-btn"><span>🔊</span></button>
-        <button id="theme-btn"><span>☀️</span></button>
+        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
+        <button id="theme-btn" aria-label="Farbschema wechseln">
+          <span>☀️</span>
+        </button>
       </div>
       <div class="session-info">
         <!-- Rechte Seite -->
@@ -34,9 +36,11 @@
       </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="hinweise.js"></script>
-    <script src="background.js"></script>
-    <script src="global.js"></script>
+    <!-- Die Skripte werden jetzt als Module geladen -->
+    <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="data.js"></script>
+    <script type="module" src="hinweise.js"></script>
+    <script type="module" src="background.js"></script>
+    <script type="module" src="global.js"></script>
   </body>
 </html>
