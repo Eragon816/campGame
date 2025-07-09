@@ -1,3 +1,4 @@
+
 // aufgaben.js - Logik für die Aufgaben-Seite mit FIREBASE v9 Integration
 
 // Importiert die benötigten Daten aus data.js
@@ -75,7 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!task) return;
 
     if (task.code.toUpperCase() === inputCode.toUpperCase()) {
-      if (window.playSound) window.playSound("success");
+      // *** ÄNDERUNG: Die "if (window.playSound)"-Prüfung wurde entfernt, da sie redundant ist. ***
+      window.playSound("success");
 
       if (!progress.completedTasks.includes(taskId)) {
         progress.completedTasks.push(taskId);
@@ -86,7 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
         showHintModal(task.clueId);
       }
     } else {
-      if (window.playSound) window.playSound("error");
+      // *** ÄNDERUNG: Die "if (window.playSound)"-Prüfung wurde entfernt, da sie redundant ist. ***
+      window.playSound("error");
       const inputField = currentTaskContainer.querySelector(".code-input");
       inputField.classList.add("shake");
       setTimeout(() => inputField.classList.remove("shake"), 500);

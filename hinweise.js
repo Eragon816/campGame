@@ -1,12 +1,14 @@
+
 // hinweise.js - mit FIREBASE v9 Integration
 
 // Importiert die benötigten Daten aus data.js
 import { allClues } from "./data.js";
 
 import { db } from "./firebase-init.js";
+// HINZUGEFÜGT: 'onValue' für Echtzeit-Updates. 'get' wird nicht mehr benötigt.
 import {
   ref,
-  get,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -45,18 +47,22 @@ document.addEventListener("DOMContentLoaded", () => {
       cluesListContainer.appendChild(clueCard);
     });
   }
-
-  get(groupProgressRef)
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const progress = snapshot.val();
-        renderClues(progress.unlockedClues || []);
-      } else {
-        renderClues([]);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      cluesListContainer.innerHTML = "<p>Fehler beim Laden der Hinweise.</p>";
-    });
+  
+  // *** START DER ÄNDERUNG: 'get' wurde durch 'onValue' ersetzt ***
+  // Diese Funktion lauscht nun auf Änderungen und aktualisiert die Ansicht automatisch.
+  onValue(groupProgressRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const progress = snapshot.val();
+      // Stelle sicher, dass unlockedClues ein Array ist, auch wenn es in Firebase null ist
+      renderClues(progress.unlockedClues || []);
+    } else {
+      // Wird aufgerufen, wenn für die Gruppe noch kein Fortschritt existiert
+      renderClues([]);
+    }
+  }, (error) => {
+    // Fehlerbehandlung für den Fall, dass die Verbindung fehlschlägt
+    console.error("Fehler beim Laden der Hinweise:", error);
+    cluesListContainer.innerHTML = "<p>Fehler beim Laden der Hinweise.</p>";
+  });
+  // *** ENDE DER ÄNDERUNG ***
 });

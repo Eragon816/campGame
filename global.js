@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(localStorage.getItem("theme") || "dark");
 
   // --- 2. SOUND-LOGIK --- (unverändert)
-  // ... (Der gesamte Sound-Logik-Block bleibt hier unverändert) ...
   const backgroundMusic = new Audio("./sound/background-music.mp3");
   backgroundMusic.loop = true;
   const clickSound = new Audio("./sound/click.mp3");
@@ -114,21 +113,25 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       window.playSound("click");
 
-      // WICHTIG: Die gruppenspezifischen Daten müssen hier entfernt werden
-      const groupCode = localStorage.getItem("eragon-group-code");
-      if (groupCode) {
-        localStorage.removeItem(`eragon-progress-${groupCode}`);
-      }
+      // *** START DER ÄNDERUNG ***
+      // Die folgende Zeile wurde entfernt, da der Fortschritt nicht mehr im localStorage,
+      // sondern in Firebase gespeichert wird. Sie hatte keine Funktion mehr.
+      // const groupCode = localStorage.getItem("eragon-group-code");
+      // if (groupCode) {
+      //   localStorage.removeItem(`eragon-progress-${groupCode}`);
+      // }
+      // *** ENDE DER ÄNDERUNG ***
 
-      // Alte und neue Session-Daten entfernen
+      // Alle relevanten Session-Daten entfernen
       localStorage.removeItem("eragon-team-name");
       localStorage.removeItem("eragon-group-id");
       localStorage.removeItem("eragon-group-code");
       localStorage.removeItem("eragon-group-color");
-      localStorage.removeItem("eragon-progress"); // Vorsichtshalber entfernen
       localStorage.removeItem("music-was-started");
       localStorage.removeItem("theme");
       localStorage.removeItem("isMuted");
+      // Dieser alte Key wird sicherheitshalber auch entfernt
+      localStorage.removeItem("eragon-progress");
 
       setTimeout(() => {
         window.location.href = "index.html";
@@ -137,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 4. GLOBALE BUTTON-KLICK-SOUNDS --- (unverändert)
-  // ... (Der gesamte Button-Klick-Sound-Block bleibt hier unverändert) ...
   document
     .querySelectorAll(
       ".form-button, .menu-button, .back-button, #modal-close-btn, #enter-game-btn"

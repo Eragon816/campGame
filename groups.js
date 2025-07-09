@@ -4,25 +4,25 @@
 export const gameGroups = [
   {
     id: 1,
-    name: "Die Schattenwölfe",
-    code: "WOLF",
+    name: "Die Wölfe",
+    code: "WOLF1998",
     color: "#8e44ad", // Lila
   },
   {
     id: 2,
-    name: "Die Feuerdrachen",
+    name: "Die Drachen",
     code: "DRC4",
     color: "#e74c3c", // Rot
   },
   {
     id: 3,
-    name: "Die Wächter des Waldes",
+    name: "Die Wächter",
     code: "WDW7",
     color: "#27ae60", // Grün
   },
   {
     id: 4,
-    name: "Das Syndikat der Sterne",
+    name: "Die Sterne",
     code: "SYND",
     color: "#2980b9", // Blau
   },

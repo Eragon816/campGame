@@ -125,12 +125,13 @@ export const tasks = [
     clueId: 2,
   },
   {
+    // GEÄNDERT
     id: 3,
     day: 1,
-    title: "Alphabet-Körperkunst",
+    title: "Der menschliche Knoten",
     description:
-      "Formt mit euren Körpern auf dem Boden ein Wort, das zum Camp passt.",
-    code: "BUCHSTABE",
+      "Stellt euch im Kreis auf, greift über Kreuz die Hände von zwei verschiedenen Personen und versucht dann, den Knoten zu entwirren, ohne die Hände loszulassen, bis ihr wieder in einem Kreis steht.",
+    code: "KNOTENLOS",
     clueId: 3,
   },
   {
@@ -170,12 +171,13 @@ export const tasks = [
     clueId: 7,
   },
   {
+    // GEÄNDERT
     id: 8,
     day: 2,
-    title: "Song-Pantomime",
+    title: "Camp-Flashmob",
     description:
-      "Stellt pantomimisch ein bekanntes Lied dar, das Eragon erraten muss.",
-    code: "STUMMFILM",
+      "Erfindet eine 30-sekündige Choreographie zu einem bekannten Hit oder einem Camp-Lied und führt sie alle gemeinsam als 'Flashmob' auf.",
+    code: "CAMPGROOVE",
     clueId: 8,
   },
   {
@@ -206,12 +208,13 @@ export const tasks = [
     clueId: 11,
   },
   {
+    // GEÄNDERT
     id: 12,
     day: 3,
-    title: "Der längste Schatten",
+    title: "Die Farben-Jagd",
     description:
-      "Findet am späten Nachmittag den Punkt, an dem man den längsten Schatten wirft.",
-    code: "ZEITMESSER",
+      "Findet und präsentiert Eragon für jede der folgenden Farben einen Gegenstand aus der Natur: Rot, Gelb, Grün, Braun und Weiß (z.B. eine rote Beere, ein gelbes Blatt, Moos, ein Stück Rinde, ein weißer Kieselstein).",
+    code: "REGENBOGEN7",
     clueId: 12,
   },
   {
@@ -224,12 +227,13 @@ export const tasks = [
     clueId: 13,
   },
   {
+    // GEÄNDERT
     id: 14,
     day: 3,
-    title: "Papierboot-Regatta",
+    title: "Das Natur-Maskottchen",
     description:
-      "Lasst ein selbstgefaltetes Papierboot eine bestimmte Distanz schwimmen.",
-    code: "WELLEBRECHER",
+      "Baut nur aus Naturmaterialien, die ihr im Camp findet (Zweige, Blätter, Steine, Zapfen etc.), ein kleines Maskottchen, das euer Team repräsentiert.",
+    code: "WALDGEIST",
     clueId: 14,
   },
   {
@@ -251,30 +255,33 @@ export const tasks = [
     clueId: 16,
   },
   {
+    // GEÄNDERT
     id: 17,
     day: 4,
-    title: "Die geheime Botschaft",
+    title: "Der Wasserträger-Staffellauf",
     description:
-      "Löst eine sportliche Aufgabe, um einen Hinweis auf eine versteckte Nachricht zu erhalten.",
-    code: "BOTSCHAFT7",
+      "Jedes Teammitglied muss nacheinander eine kurze Strecke mit einem bis zum Rand gefüllten Becher Wasser zurücklegen und das restliche Wasser in einen Eimer schütten. Der Code wird vergeben, wenn der Eimer eine bestimmte Markierung erreicht hat.",
+    code: "NASSGEMACHT",
     clueId: 17,
   },
   {
+    // GEÄNDERT
     id: 18,
     day: 4,
-    title: "Das Versteck",
+    title: "Die Lagerfeuer-Geschichte",
     description:
-      "Die letzte Nachricht ist ein Bilderrätsel, das zum Versteck des Pokals führt.",
-    code: "PUZZLEBILD",
+      "Erfindet gemeinsam eine kurze (ca. 1 Minute lange), gruselige oder lustige Camp-Geschichte. Jedes Teammitglied muss dabei mindestens einen Satz zur Geschichte beitragen.",
+    code: "GESCHICHTE88",
     clueId: 18,
   },
   {
+    // GEÄNDERT
     id: 19,
     day: 4,
-    title: "Der Fund",
+    title: "Der Schlachtruf der Ermittler",
     description:
-      "Macht ein Foto von euch mit dem gefundenen Pokal, um den finalen Code zu erhalten.",
-    code: "FINALE44",
+      "Dichtet einen kurzen, lauten Schlachtruf oder einen Team-Gesang für eure Gruppe, der eure Entschlossenheit als Ermittler zeigt. Tragt ihn gemeinsam und kraftvoll vor.",
+    code: "TEAMGEIST24",
     clueId: 19,
   },
   {
