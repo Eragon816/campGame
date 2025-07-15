@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -6,19 +7,20 @@
     <title>Der Fall - Der Hayat-Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <!-- NEU: data-page-title-key für die Übersetzung des Seitentitels -->
+  <body data-page-title-key="fall_page_title">
     <div class="fixed-controls">
       <div>
-        <!-- Linke Seite -->
         <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
         <button id="theme-btn" aria-label="Farbschema wechseln">
           <span>☀️</span>
         </button>
+        <!-- NEU: Sprachwechsel-Button -->
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
       </div>
       <div class="session-info">
-        <!-- Rechte Seite -->
-        <span>Team: <strong id="display-team-name"></strong></span>
-        <a href="#" id="logout-btn">Team verlassen</a>
+        <span><span data-translate="team_text">Team</span>: <strong id="display-team-name"></strong></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text">Team verlassen</a>
       </div>
     </div>
 
@@ -27,30 +29,22 @@
     <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
-          <h2>Der Fall</h2>
-          <a href="menu.html" class="back-button">← Zurück zum Menü</a>
+          <h2 data-translate="fall_title">Der Fall</h2>
+          <a href="menu.html" class="back-button" data-translate="back_to_menu_btn">← Zurück zum Menü</a>
         </header>
         <main class="page-content">
-          <p>
+          <p data-translate="fall_p1">
             Der Pokal ist weg. Gestohlen gestern zwischen 20:00 und 21:30 Uhr
-            aus dem Gemeinschaftsraum. Der Raum war belebt, aber niemand will
-            etwas gesehen haben. Es gibt keine Zeugen des Diebstahls selbst, nur
-            eine Reihe von seltsamen Vorkommnissen und Objekten, die
-            zurückgeblieben sind.
+            aus dem Gemeinschaftsraum...
           </p>
-          <h3>Die Mission</h3>
-          <p>
-            Die Teams schlüpfen in die Rolle von "Ermittlern". Ihre Mission ist
-            es, die Herausforderungen des Diebes zu meistern, um zu beweisen,
-            dass sie würdig sind. Mit jeder erfolgreich absolvierten Aufgabe
-            sammeln sie Hinweise, die sie dem Täter, seinem Motiv und dem
-            Tathergang näherbringen. Die Zeit drängt, denn der große
-            Camp-Abschlussabend steht bevor!
+          <h3 data-translate="fall_mission_title">Die Mission</h3>
+          <p data-translate="fall_mission_p1">
+            Die Teams schlüpfen in die Rolle von "Ermittlern"...
           </p>
-          <h3>Die finalen Fragen (am Ende des Spiels)</h3>
+          <h3 data-translate="fall_questions_title">Die finalen Fragen (am Ende des Spiels)</h3>
           <ul>
-            <li>WER war der Täter?</li>
-            <li>
+            <li data-translate="fall_question1">WER war der Täter?</li>
+            <li data-translate="fall_question2">
               WIE hat er den Diebstahl genau durchgeführt? (Der Tathergang)
             </li>
           </ul>
@@ -60,6 +54,7 @@
 
     <!-- Die Skripte werden jetzt als Module geladen -->
     <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="translations.js"></script> <!-- NEU -->
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>
   </body>

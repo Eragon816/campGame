@@ -1,10 +1,6 @@
-
 // aufgaben.js - Logik für die Aufgaben-Seite mit FIREBASE v9 Integration
-
-// Importiert die benötigten Daten aus data.js
-import { tasks, allClues } from "./data.js";
-
-// Import der Firebase DB-Instanz und der benötigten Funktionen
+import { tasks } from "./data.js";
+import { translations } from "./translations.js";
 import { db } from "./firebase-init.js";
 import {
   ref,
@@ -13,57 +9,72 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // HTML-Elemente holen
   const mapContainer = document.getElementById("tasks-map-container");
   const currentTaskContainer = document.getElementById("current-task-display");
   const modal = document.getElementById("clue-modal");
   const modalClueTitle = document.getElementById("modal-clue-title");
   const modalClueText = document.getElementById("modal-clue-text");
   const modalCloseBtn = document.getElementById("modal-close-btn");
+  const taskCardTemplate = document.getElementById("task-card-template");
+  const loader = document.getElementById("loader");
+  const pageContent = document.querySelector(".page-content");
 
+  // Lokale Variablen
   let progress = { completedTasks: [], unlockedClues: [] };
   const groupCode = localStorage.getItem("eragon-group-code");
 
+  // Sicherheits-Check: Ohne Gruppe kein Spiel
   if (!groupCode) {
     console.error("Keine Gruppe gefunden! Umleitung zum Login.");
     window.location.href = "index.html";
     return;
   }
 
+  // Firebase Referenz und Konstanten
   const groupProgressRef = ref(db, "progress/" + groupCode);
+  const dayColors = { 1: "#e74c3c", 2: "#3498db", 3: "#f1c40f", 4: "#2ecc71" };
 
-  const dayColors = {
-    1: "#e74c3c",
-    2: "#3498db",
-    3: "#f1c40f",
-    4: "#2ecc71",
+  // --- Ladeanzeige-Funktionen ---
+  const showLoader = (isLoading) => {
+    loader.style.display = isLoading ? "block" : "none";
+    // KORREKTUR: Wir setzen das Attribut als String, um Konsistenz zu gewährleisten.
+    pageContent.dataset.loading = String(isLoading);
   };
 
+  // --- Firebase-Funktionen ---
   function saveProgress() {
-    set(groupProgressRef, progress).catch((error) => {
-      console.error("Fehler beim Speichern des Fortschritts:", error);
-    });
+    set(groupProgressRef, progress).catch((error) =>
+      console.error("Fehler beim Speichern:", error)
+    );
   }
 
   function syncProgress() {
-    onValue(groupProgressRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Sicherstellen, dass die Arrays existieren, falls sie in Firebase null sind
-        progress.completedTasks = data.completedTasks || [];
-        progress.unlockedClues = data.unlockedClues || [];
-      } else {
-        progress = { completedTasks: [], unlockedClues: [] };
-        saveProgress();
+    onValue(
+      groupProgressRef,
+      (snapshot) => {
+        const data = snapshot.val();
+        progress.completedTasks = data?.completedTasks || [];
+        progress.unlockedClues = data?.unlockedClues || [];
+        renderPage();
+        showLoader(false); // Nach dem Rendern den Loader ausblenden und Inhalt zeigen
+      },
+      (error) => {
+        console.error("Firebase-Fehler:", error);
+        showLoader(false); // Auch bei Fehler den Loader ausblenden
+        pageContent.innerHTML = "<p>Fehler beim Laden der Spieldaten.</p>";
       }
-      renderMapAndTask();
-    });
+    );
   }
 
+  // --- UI-Funktionen ---
   function showHintModal(clueId) {
-    const clue = allClues.find((c) => c.id === clueId);
-    if (!clue) return;
-    modalClueTitle.textContent = `Neuer Hinweis: ${clue.type}`;
-    modalClueText.textContent = clue.text;
+    const lang = localStorage.getItem("language") || "de";
+    const clueTranslation = translations[lang].clues[clueId - 1];
+    if (!clueTranslation) return;
+
+    modalClueTitle.textContent = `${translations[lang].clue_modal_title} ${clueTranslation.type}`;
+    modalClueText.textContent = clueTranslation.text;
     modal.classList.add("visible");
   }
 
@@ -76,34 +87,38 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!task) return;
 
     if (task.code.toUpperCase() === inputCode.toUpperCase()) {
-      // *** ÄNDERUNG: Die "if (window.playSound)"-Prüfung wurde entfernt, da sie redundant ist. ***
       window.playSound("success");
-
       if (!progress.completedTasks.includes(taskId)) {
         progress.completedTasks.push(taskId);
         if (!progress.unlockedClues.includes(task.clueId)) {
           progress.unlockedClues.push(task.clueId);
         }
-        saveProgress();
+        saveProgress(); // Löst via onValue ein Neu-Rendern aus
         showHintModal(task.clueId);
       }
     } else {
-      // *** ÄNDERUNG: Die "if (window.playSound)"-Prüfung wurde entfernt, da sie redundant ist. ***
       window.playSound("error");
       const inputField = currentTaskContainer.querySelector(".code-input");
-      inputField.classList.add("shake");
-      setTimeout(() => inputField.classList.remove("shake"), 500);
+      if (inputField) {
+        inputField.classList.add("shake");
+        setTimeout(() => inputField.classList.remove("shake"), 500);
+      }
     }
   }
 
-  function renderMapAndTask() {
-    let currentTask = null;
-    for (const task of tasks) {
-      if (!progress.completedTasks.includes(task.id)) {
-        currentTask = task;
-        break;
-      }
-    }
+  // --- Render-Funktionen ---
+  function renderPage() {
+    renderMap();
+    renderCurrentTask();
+  }
+
+  function renderMap() {
+    const lang = localStorage.getItem("language") || "de";
+    const trans = translations[lang];
+    const currentTask = tasks.find(
+      (task) => !progress.completedTasks.includes(task.id)
+    );
+    const currentTaskId = currentTask ? currentTask.id : null;
 
     mapContainer.innerHTML = "";
     let currentDay = 0;
@@ -114,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const dayDivider = document.createElement("div");
         dayDivider.className = "map-day-divider";
         dayDivider.dataset.day = currentDay;
-        dayDivider.innerHTML = `<span>Tag ${currentDay}</span>`;
+        dayDivider.innerHTML = `<span>${trans.tasks_day_prefix} ${currentDay}</span>`;
         mapContainer.appendChild(dayDivider);
       }
 
@@ -131,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (progress.completedTasks.includes(task.id)) {
         node.classList.add("completed");
         node.innerHTML = `<span>✔</span>`;
-      } else if (currentTask && task.id === currentTask.id) {
+      } else if (task.id === currentTaskId) {
         node.classList.add("active");
         node.innerHTML = `<span>${task.id}</span>`;
       } else {
@@ -140,52 +155,81 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       mapContainer.appendChild(node);
     });
+  }
 
-    if (currentTask) {
-      currentTaskContainer.style.display = "block";
-      const color = dayColors[currentTask.day] || "var(--primary-color)";
-      currentTaskContainer.innerHTML = `
-        <div class="task-card active-task" style="--day-color: ${color};">
-            <div class="task-header">
-                <h3 class="task-title">${currentTask.id}. ${currentTask.title}</h3>
-            </div>
-            <p class="task-description">${currentTask.description}</p>
-            <div class="task-action-area">
-                <div class="task-input-wrapper">
-                    <input type="text" class="code-input" placeholder="CODE" maxlength="15">
-                    <button class="check-button form-button">Bestätigen</button>
-                </div>
-            </div>
-        </div>`;
+  function renderCurrentTask() {
+    const lang = localStorage.getItem("language") || "de";
+    const trans = translations[lang];
+    const currentTask = tasks.find(
+      (task) => !progress.completedTasks.includes(task.id)
+    );
 
-      const inputField = currentTaskContainer.querySelector(".code-input");
-      const checkButton = currentTaskContainer.querySelector(".check-button");
+    currentTaskContainer.innerHTML = ""; // Container immer leeren
 
-      checkButton.addEventListener("click", () => {
-        const input = inputField.value.trim();
-        if (input) checkCode(currentTask.id, input);
-      });
+    if (currentTask && taskCardTemplate) {
+      const taskTranslation = trans.tasks[currentTask.id - 1];
+      if (!taskTranslation) {
+        console.error(
+          `Keine Übersetzung für Task ID ${currentTask.id} gefunden.`
+        );
+        return;
+      }
+      const cardClone = taskCardTemplate.content.cloneNode(true);
+      const cardElement = cardClone.querySelector(".task-card");
+      const checkButton = cardClone.querySelector(".check-button");
 
-      inputField.addEventListener("keyup", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          checkButton.click();
-        }
-      });
-    } else {
-      currentTaskContainer.style.display = "block";
+      cardElement.style.setProperty(
+        "--day-color",
+        dayColors[currentTask.day] || "var(--primary-color)"
+      );
+      cardElement.querySelector(
+        ".task-title"
+      ).textContent = `${currentTask.id}. ${taskTranslation.title}`;
+      cardElement.querySelector(".task-description").textContent =
+        taskTranslation.description;
+      cardElement.querySelector(".code-input").placeholder =
+        trans.task_code_placeholder;
+
+      checkButton.textContent = trans.confirm_btn;
+      checkButton.dataset.taskId = currentTask.id;
+
+      currentTaskContainer.appendChild(cardClone);
+    } else if (!currentTask) {
       currentTaskContainer.innerHTML = `
         <div class="task-card erledigt">
-            <h3 style="text-align: center; color: var(--success-color);">🎉 Fantastisch! 🎉</h3>
-            <p style="text-align: center;">Ihr habt alle Aufgaben gemeistert und alle Hinweise gesammelt. Geht zur Hinweise-Seite, um eure finalen Schlüsse zu ziehen!</p>
+            <h3 style="text-align: center; color: var(--success-color);">${trans.tasks_all_done_title}</h3>
+            <p style="text-align: center;">${trans.tasks_all_done_text}</p>
         </div>`;
     }
   }
+
+  // --- Event Listener ---
+  currentTaskContainer.addEventListener("click", (e) => {
+    if (e.target.matches(".check-button")) {
+      const taskId = parseInt(e.target.dataset.taskId, 10);
+      const inputField = currentTaskContainer.querySelector(".code-input");
+      const input = inputField ? inputField.value.trim() : "";
+      if (taskId && input) {
+        checkCode(taskId, input);
+      }
+    }
+  });
+
+  currentTaskContainer.addEventListener("keyup", (e) => {
+    if (e.key === "Enter" && e.target.matches(".code-input")) {
+      e.preventDefault();
+      currentTaskContainer.querySelector(".check-button")?.click();
+    }
+  });
 
   modalCloseBtn.addEventListener("click", closeHintModal);
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeHintModal();
   });
 
+  window.addEventListener("languageChanged", renderPage);
+
+  // --- Initialisierung ---
+  showLoader(true);
   syncProgress();
 });

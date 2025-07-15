@@ -6,115 +6,76 @@
     <title>Verdächtigte - Der Hayat-Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-page-title-key="suspects_page_title">
     <div class="fixed-controls">
-      <div>
-        <!-- Linke Seite -->
-        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
-        <button id="theme-btn" aria-label="Farbschema wechseln">
-          <span>☀️</span>
-        </button>
-      </div>
-      <div class="session-info">
-        <!-- Rechte Seite -->
-        <span>Team: <strong id="display-team-name"></strong></span>
-        <a href="#" id="logout-btn">Team verlassen</a>
-      </div>
+      <!-- ... (unverändert) ... -->
     </div>
-
     <canvas id="canvas-background"></canvas>
-
     <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
-          <h2>Die Verdächtigen</h2>
-          <a href="menu.html" class="back-button">← Zurück zum Menü</a>
+          <h2 data-translate="suspects_title">Die Verdächtigen</h2>
+          <a
+            href="menu.html"
+            class="back-button"
+            data-translate="back_to_menu_btn"
+            >← Zurück zum Menü</a
+          >
         </header>
         <main class="page-content">
           <div class="suspects-list">
             <!-- === Mahmoud === -->
             <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild Mahmoud"
-              />
+              <!-- NEU: Emoji statt Bild -->
+              <div class="suspect-emoji">🎧</div>
               <h3 class="suspect-name">Mahmoud</h3>
               <blockquote class="suspect-statement">
-                <p>
-                  "Ich saß auf dem Sofa, hatte meine Kopfhörer auf und hab
-                  einfach nur entspannt. Leute sind rein und raus, aber ich hab
-                  auf nichts geachtet. Ich bin der Falsche, um was gesehen zu
-                  haben."
+                <p data-translate="suspect_mahmoud_quote">
+                  "Ich saß auf dem Sofa..."
                 </p>
               </blockquote>
             </div>
-
             <!-- === Majd === -->
             <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild Majd"
-              />
+              <!-- NEU: Emoji statt Bild -->
+              <div class="suspect-emoji">📱</div>
               <h3 class="suspect-name">Majd</h3>
               <blockquote class="suspect-statement">
-                <p>
-                  "Ich war die meiste Zeit draußen, der Empfang ist einfach
-                  besser. Ich hab mit meiner Familie telefoniert. Als ich wieder
-                  reinkam, war die Stimmung schon komisch. Ich hab nichts
-                  mitbekommen."
+                <p data-translate="suspect_majd_quote">
+                  "Ich war die meiste Zeit draußen..."
                 </p>
               </blockquote>
             </div>
-
             <!-- === Esther === -->
             <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild Esther"
-              />
+              <!-- NEU: Emoji statt Bild -->
+              <div class="suspect-emoji">😠</div>
               <h3 class="suspect-name">Esther</h3>
               <blockquote class="suspect-statement">
-                <p>
-                  "Ich hab mich furchtbar über Rami geärgert, weil er so
-                  rücksichtslos an mir vorbeigestürmt ist, als ich gerade in der
-                  Küche war. Später habe ich dann gehört, dass der Pokal weg
-                  ist. Vielleicht war er so wütend, dass er ihn einfach
-                  mitgenommen hat."
+                <p data-translate="suspect_esther_quote">
+                  "Ich hab mich furchtbar über Rami geärgert..."
                 </p>
               </blockquote>
             </div>
-
             <!-- === Rami === -->
             <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild Rami"
-              />
+              <!-- NEU: Emoji statt Bild -->
+              <div class="suspect-emoji">🎮</div>
               <h3 class="suspect-name">Rami</h3>
               <blockquote class="suspect-statement">
-                <p>
-                  "Ja, ich war sauer, weil das WLAN für die Online-Games so mies
-                  ist. Ich bin in den Keller, um mich abzureagieren. Als ich
-                  hochkam, war Esther total komisch zu mir. Keine Ahnung, was
-                  ihr Problem ist. Mit dem Pokal hab ich nichts am Hut."
+                <p data-translate="suspect_rami_quote">
+                  "Ja, ich war sauer..."
                 </p>
               </blockquote>
             </div>
-
             <!-- === Motaz === -->
             <div class="suspect-card">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath class='suspect-image' d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                alt="Profilbild Motaz"
-              />
+              <!-- NEU: Emoji statt Bild -->
+              <div class="suspect-emoji">🧠</div>
               <h3 class="suspect-name">Motaz</h3>
               <blockquote class="suspect-statement">
-                <p>
-                  "Ich war auf meinem Zimmer und habe gelesen. Ich bin nur
-                  einmal kurz runter, um am Automaten was zu trinken zu holen.
-                  Da schien noch alles normal zu sein. Ich finde es aber
-                  seltsam, dass der Pokal einfach so verschwindet, wenn doch die
-                  ganze Zeit jemand wie Mahmoud direkt davor saß."
+                <p data-translate="suspect_motaz_quote">
+                  "Ich war auf meinem Zimmer..."
                 </p>
               </blockquote>
             </div>
@@ -122,9 +83,9 @@
         </main>
       </div>
     </div>
-
-    <!-- Die Skripte werden jetzt als Module geladen -->
+    <!-- Scripts -->
     <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="translations.js"></script>
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>
   </body>

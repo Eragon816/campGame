@@ -1,25 +1,77 @@
+
 // global.js - Enthält ALLE gemeinsamen und globalen Funktionen
+import { translations } from "./translations.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // --- NEU: GRUPPENFARBE ANWENDEN ---
+  // --- GRUPPENFARBE ANWENDEN ---
   const groupColor = localStorage.getItem("eragon-group-color");
   if (groupColor) {
     document.body.style.setProperty("--primary-color", groupColor);
   }
 
-  // --- 1. THEME-LOGIK --- (Rest unverändert)
+  // --- 1. SPRACH-LOGIK (NEU) ---
+  const langBtn = document.getElementById("lang-btn");
+  let currentLang = localStorage.getItem("language") || "de";
+
+  const applyTranslations = () => {
+    const lang = localStorage.getItem("language") || "de";
+    const trans = translations[lang];
+
+    document.querySelectorAll("[data-translate]").forEach(el => {
+        const key = el.dataset.translate;
+        if (trans[key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = trans[key];
+            } else {
+                el.innerHTML = trans[key];
+            }
+        }
+    });
+    
+    // Setzt den Titel des HTML-Dokuments
+    const pageTitleKey = document.body.dataset.pageTitleKey;
+    if (pageTitleKey && trans[pageTitleKey]) {
+        document.title = trans[pageTitleKey];
+    }
+
+    // Setzt die Sprache und Textrichtung für CSS
+    document.documentElement.lang = lang;
+    document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.body.classList.toggle('lang-ar', lang === 'ar');
+  };
+
+  const setLanguage = (lang) => {
+    currentLang = lang;
+    localStorage.setItem("language", lang);
+    if (langBtn) {
+        langBtn.textContent = translations[lang].lang_btn_text;
+    }
+    applyTranslations();
+    // Eigene Events auslösen, damit andere Skripte reagieren können (z.B. Aufgaben neu rendern)
+    window.dispatchEvent(new CustomEvent("languageChanged"));
+  };
+
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      const newLang = currentLang === "de" ? "ar" : "de";
+      setLanguage(newLang);
+    });
+  }
+  
+  // Initiale Sprache setzen
+  setLanguage(currentLang);
+
+
+  // --- 2. THEME-LOGIK ---
   const themeBtn = document.getElementById("theme-btn");
   const applyTheme = (theme) => {
     document.body.classList.remove("light-mode", "dark-mode");
     document.body.classList.add(theme + "-mode");
     if (themeBtn) {
-      themeBtn.innerHTML =
-        theme === "dark" ? "<span>☀️</span>" : "<span>🌙</span>";
+      themeBtn.innerHTML = theme === "dark" ? "<span>☀️</span>" : "<span>🌙</span>";
     }
     localStorage.setItem("theme", theme);
-    window.dispatchEvent(
-      new CustomEvent("themeChanged", { detail: { theme: theme } })
-    );
+    window.dispatchEvent(new CustomEvent("themeChanged", { detail: { theme: theme } }));
   };
 
   if (themeBtn) {
@@ -31,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   applyTheme(localStorage.getItem("theme") || "dark");
 
-  // --- 2. SOUND-LOGIK --- (unverändert)
+  // --- 3. SOUND-LOGIK --- (unverändert)
   const backgroundMusic = new Audio("./sound/background-music.mp3");
   backgroundMusic.loop = true;
   const clickSound = new Audio("./sound/click.mp3");
@@ -64,15 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isMuted) return;
     let soundToPlay;
     switch (soundType) {
-      case "click":
-        soundToPlay = clickSound;
-        break;
-      case "success":
-        soundToPlay = successSound;
-        break;
-      case "error":
-        soundToPlay = errorSound;
-        break;
+      case "click": soundToPlay = clickSound; break;
+      case "success": soundToPlay = successSound; break;
+      case "error": soundToPlay = errorSound; break;
     }
     if (soundToPlay) {
       soundToPlay.currentTime = 0;
@@ -87,23 +133,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  if (localStorage.getItem("music-was-started") === "true") {
-    if (!isMuted) {
-      backgroundMusic.play().catch((e) => {});
-    }
+  if (localStorage.getItem("music-was-started") === "true" && !isMuted) {
+    backgroundMusic.play().catch((e) => {});
   }
   updateMuteState();
 
-  // --- 3. SESSION-INFO & LOGOUT-LOGIK ---
+
+  // --- 4. SESSION-INFO & LOGOUT-LOGIK ---
   const teamNameDisplay = document.querySelector("#display-team-name");
   const logoutBtn = document.querySelector("#logout-btn");
+  const teamTextSpan = document.querySelector("#team-text-span");
 
   if (teamNameDisplay) {
     const teamName = localStorage.getItem("eragon-team-name");
     if (teamName) {
       teamNameDisplay.textContent = teamName;
     } else {
-      // Wenn kein Teamname da ist, zurück zum Login
       window.location.href = "index.html";
     }
   }
@@ -112,17 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       window.playSound("click");
-
-      // *** START DER ÄNDERUNG ***
-      // Die folgende Zeile wurde entfernt, da der Fortschritt nicht mehr im localStorage,
-      // sondern in Firebase gespeichert wird. Sie hatte keine Funktion mehr.
-      // const groupCode = localStorage.getItem("eragon-group-code");
-      // if (groupCode) {
-      //   localStorage.removeItem(`eragon-progress-${groupCode}`);
-      // }
-      // *** ENDE DER ÄNDERUNG ***
-
-      // Alle relevanten Session-Daten entfernen
+      
       localStorage.removeItem("eragon-team-name");
       localStorage.removeItem("eragon-group-id");
       localStorage.removeItem("eragon-group-code");
@@ -130,33 +165,21 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("music-was-started");
       localStorage.removeItem("theme");
       localStorage.removeItem("isMuted");
-      // Dieser alte Key wird sicherheitshalber auch entfernt
-      localStorage.removeItem("eragon-progress");
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 150);
+      localStorage.removeItem("language"); // Sprache zurücksetzen
+      
+      setTimeout(() => { window.location.href = "index.html"; }, 150);
     });
   }
 
-  // --- 4. GLOBALE BUTTON-KLICK-SOUNDS --- (unverändert)
-  document
-    .querySelectorAll(
-      ".form-button, .menu-button, .back-button, #modal-close-btn, #enter-game-btn"
-    )
+  // --- 5. GLOBALE BUTTON-KLICK-SOUNDS ---
+  document.querySelectorAll(".form-button, .menu-button, .back-button, #modal-close-btn, #enter-game-btn")
     .forEach((button) => {
       button.addEventListener("click", (e) => {
         window.playSound("click");
-        if (
-          button.tagName === "A" &&
-          button.href &&
-          !button.href.endsWith("#")
-        ) {
+        if (button.tagName === "A" && button.href && !button.href.endsWith("#")) {
           e.preventDefault();
           const destination = button.href;
-          setTimeout(() => {
-            window.location.href = destination;
-          }, 150);
+          setTimeout(() => { window.location.href = destination; }, 150);
         }
       });
     });

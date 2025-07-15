@@ -38,16 +38,4 @@ export const gameGroups = [
     code: "GLM9",
     color: "#7f8c8d", // Grau
   },
-  {
-    id: 7,
-    name: "Die Tiefsee-Kraken",
-    code: "KRAK",
-    color: "#16a085", // Türkis
-  },
-  {
-    id: 8,
-    name: "Die Phantom-Legion",
-    code: "LG8N",
-    color: "#d35400", // Kürbis
-  },
-];
+  ];

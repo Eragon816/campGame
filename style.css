@@ -1,5 +1,5 @@
 /* --- 1. GRUNDEINSTELLUNGEN & FARB-VARIABLEN --- */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Russo+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Russo+One&family=Tajawal:wght@400;500;700&display=swap");
 
 :root {
   --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
@@ -22,6 +22,7 @@
   --light-mode-shadow: rgba(108, 106, 231, 0.1);
   --success-color: #28a745;
   --error-color: #ff3b5f;
+  --transition-speed: 0.3s;
 }
 
 body {
@@ -59,7 +60,8 @@ body {
   box-sizing: border-box;
   position: relative;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease;
 }
 
 /* --- 2. LAYOUT & ZENTRIERUNG --- */
@@ -101,13 +103,31 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color var(--transition-speed) ease,
+    border-color var(--transition-speed) ease;
 }
 .page-container {
   max-width: 800px;
   align-items: stretch;
   text-align: left;
 }
+
+/* KORREKTUR: Robuste Lade-Anzeige */
+.page-content {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.page-content[data-loading="true"] {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.page-content[data-loading="false"] {
+  opacity: 1;
+  visibility: visible;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -119,26 +139,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-.code-display {
-  transition: all 0.2s ease-in-out;
-}
-.form-divider {
-  display: flex;
-  align-items: center;
-  color: var(--text-color);
-  opacity: 0.5;
-  font-size: 0.9em;
-  font-weight: 500;
-}
-.form-divider::before,
-.form-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--text-color);
-  opacity: 0.3;
-  margin: 0 15px;
 }
 
 /* --- 4. TEXT & INTERAKTIVE ELEMENTE --- */
@@ -180,6 +180,7 @@ h1 {
   font-size: 1em;
   box-sizing: border-box;
   text-align: center;
+  transition: border-color var(--transition-speed) ease;
 }
 .input-field:focus {
   border-color: var(--primary-color);
@@ -201,7 +202,7 @@ h1 {
   border-radius: 12px;
   font-size: 1.1em;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all var(--transition-speed) ease;
   cursor: pointer;
   border: 2px solid var(--primary-color);
   background-color: transparent;
@@ -209,7 +210,7 @@ h1 {
 }
 body.dark-mode .menu-button,
 body.dark-mode .form-button {
-  color: var(--text-color-light);
+  color: var(--text-color);
 }
 .menu-button:hover,
 .form-button:hover,
@@ -238,7 +239,7 @@ body.dark-mode .form-button {
   color: var(--text-color);
   opacity: 0.8;
   border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: all var(--transition-speed) ease;
   white-space: nowrap;
   background-color: transparent;
 }
@@ -250,7 +251,7 @@ body.dark-mode .form-button {
 
 /* --- 5. SPEZIFISCHE KOMPONENTEN --- */
 
-/* 5.1 VERDÄCHTIGE */
+/* 5.1 VERDÄCHTIGE (mit Emojis) */
 .suspects-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -266,13 +267,18 @@ body.dark-mode .form-button {
   align-items: center;
   text-align: center;
 }
-.suspect-card img {
-  width: 80px;
-  height: 80px;
+.suspect-emoji {
+  font-size: 4rem;
+  line-height: 1;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background: var(--primary-color);
-  padding: 5px;
-  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  margin-bottom: 20px;
+  border: 2px solid var(--container-border-color);
 }
 .suspect-name {
   font-family: "Russo One", sans-serif;
@@ -291,14 +297,11 @@ body.dark-mode .form-button {
   opacity: 0.8;
   quotes: "“" "”";
 }
-.suspect-statement p::before {
+body:not(.lang-ar) .suspect-statement p::before {
   content: open-quote;
 }
-.suspect-statement p::after {
+body:not(.lang-ar) .suspect-statement p::after {
   content: close-quote;
-}
-.suspect-image {
-  fill: #fff; /* White icon fill on colored background */
 }
 
 /* 5.2 HINWEISE */
@@ -311,7 +314,19 @@ body.dark-mode .form-button {
   background: var(--input-bg);
   border-radius: 12px;
   padding: 20px;
-  border-left: 4px solid var(--primary-color);
+  border-inline-start: 4px solid var(--primary-color);
+  transform: scale(0.95);
+  opacity: 0;
+  animation: scaleIn 0.5s ease forwards;
+}
+.clue-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.clue-card:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.clue-card:nth-child(3) {
+  animation-delay: 0.2s;
 }
 .clue-type {
   margin: 0 0 10px 0;
@@ -325,7 +340,7 @@ body.dark-mode .form-button {
   opacity: 0.9;
 }
 
-/* 5.3 CODE EINGABE (wird in aufgaben.js wiederverwendet) */
+/* 5.3 CODE EINGABE */
 .task-action-area {
   background: var(--input-bg);
   border-radius: 12px;
@@ -353,7 +368,6 @@ body.dark-mode .form-button {
   padding: 0 30px;
 }
 .task-card {
-  /* Generischer Stil für Aufgaben-Karten */
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--container-border-color);
   border-radius: 16px;
@@ -378,19 +392,17 @@ body.dark-mode .form-button {
   opacity: 0.9;
 }
 
-/* 5.4 AUFGABEN-KARTE (FARBIG) - DESKTOP-ANSICHT */
+/* 5.4 AUFGABEN-KARTE */
 #tasks-map-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 20px 40px; /* Vertikaler und horizontaler Abstand */
+  gap: 20px 40px;
   padding: 30px 10px;
   margin-bottom: 30px;
   position: relative;
 }
-
-/* TAGES-TRENNER */
 .map-day-divider {
   flex-basis: 100%;
   width: 100%;
@@ -434,8 +446,6 @@ body.dark-mode .form-button {
 .map-day-divider[data-day="4"]::after {
   background: #2ecc71;
 }
-
-/* MAP-STATIONEN */
 .map-node {
   width: 50px;
   height: 50px;
@@ -450,20 +460,18 @@ body.dark-mode .form-button {
   transition: all 0.4s ease;
   border: 3px solid;
 }
-
-.map-node:not(:last-child)::after {
+.map-node:not(.is-day-end)::after {
   content: "";
   position: absolute;
-  left: 100%;
   top: 50%;
+  inset-inline-start: 100%;
   transform: translateY(-50%);
   height: 4px;
   width: 40px;
   background-color: var(--container-border-color);
   z-index: -1;
-  transition: all 0.3s ease;
+  transition: background-color 0.4s ease 0.2s;
 }
-
 .map-node.locked {
   background-color: var(--input-bg);
   border-color: var(--container-border-color);
@@ -473,7 +481,6 @@ body.dark-mode .form-button {
 .map-node.locked .lock-icon {
   font-size: 0.8em;
 }
-
 #current-task-display {
   margin-top: 20px;
 }
@@ -481,77 +488,81 @@ body.dark-mode .form-button {
   border: 2px solid var(--day-color, var(--primary-color));
   box-shadow: 0 0 15px var(--day-color, var(--primary-color));
 }
-
-/* FARBKODIERUNG DER MAP-STATIONEN */
-.map-node[data-day="1"].active,
-.map-node[data-day="1"].completed {
+.map-node[data-day="1"].active {
+  --pulse-color: rgba(231, 76, 60, 0.7);
+}
+.map-node[data-day="2"].active {
+  --pulse-color: rgba(52, 152, 219, 0.7);
+}
+.map-node[data-day="3"].active {
+  --pulse-color: rgba(241, 196, 15, 0.7);
+}
+.map-node[data-day="4"].active {
+  --pulse-color: rgba(46, 204, 113, 0.7);
+}
+.map-node[data-day="1"].completed,
+.map-node[data-day="1"].active {
   background-color: #e74c3c;
   border-color: #fff;
 }
-.map-node[data-day="1"].active {
-  animation: pulse-day1 2s infinite;
+.map-node[data-day="1"].completed:not(.is-day-end)::after {
+  background: linear-gradient(to right, #e74c3c, #3498db);
 }
-.map-node[data-day="1"].completed::after {
-  background: linear-gradient(90deg, #e74c3c, #3498db);
-}
-
-.map-node[data-day="2"].active,
-.map-node[data-day="2"].completed {
+.map-node[data-day="2"].completed,
+.map-node[data-day="2"].active {
   background-color: #3498db;
   border-color: #fff;
 }
-.map-node[data-day="2"].active {
-  animation: pulse-day2 2s infinite;
+.map-node[data-day="2"].completed:not(.is-day-end)::after {
+  background: linear-gradient(to right, #3498db, #f1c40f);
 }
-.map-node[data-day="2"].completed::after {
-  background: linear-gradient(90deg, #3498db, #f1c40f);
-}
-
-.map-node[data-day="3"].active,
-.map-node[data-day="3"].completed {
+.map-node[data-day="3"].completed,
+.map-node[data-day="3"].active {
   background-color: #f1c40f;
   border-color: #fff;
   color: #333;
 }
-.map-node[data-day="3"].active {
-  animation: pulse-day3 2s infinite;
+.map-node[data-day="3"].completed:not(.is-day-end)::after {
+  background: linear-gradient(to right, #f1c40f, #2ecc71);
 }
-.map-node[data-day="3"].completed::after {
-  background: linear-gradient(90deg, #f1c40f, #2ecc71);
-}
-
-.map-node[data-day="4"].active,
-.map-node[data-day="4"].completed {
+.map-node[data-day="4"].completed,
+.map-node[data-day="4"].active {
   background-color: #2ecc71;
   border-color: #fff;
 }
-.map-node[data-day="4"].active {
-  animation: pulse-day4 2s infinite;
+.map-node.active {
+  animation: pulse 2s infinite;
 }
 
 /* 5.5 SONSTIGE KOMPONENTEN */
 #main-logo {
-  height: 60px;
+  max-width: 180px;
+  width: 50%;
+  height: auto;
   margin-top: auto;
   padding-top: 30px;
   opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+#main-logo:hover {
+  opacity: 1;
 }
 
 /* --- 6. ÜBERLAGERNDE ELEMENTE & ANIMATIONEN --- */
 .fixed-controls {
   position: fixed;
   top: 15px;
+  inset-inline-start: 20px;
   width: calc(100% - 40px);
-  left: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 10;
   pointer-events: none;
 }
-
 #mute-btn,
-#theme-btn {
+#theme-btn,
+#lang-btn {
   background: transparent;
   border: none;
   color: var(--text-color);
@@ -567,20 +578,21 @@ body.dark-mode .form-button {
   transition: all 0.2s;
   pointer-events: auto;
 }
+#lang-btn {
+  font-size: 1.2em;
+  font-weight: bold;
+}
 #mute-btn:hover,
-#theme-btn:hover {
+#theme-btn:hover,
+#lang-btn:hover {
   opacity: 1;
   transform: scale(1.1);
   background: var(--input-bg);
-}
-#mute-btn {
-  margin-right: 5px;
 }
 .fixed-controls > div {
   display: flex;
   align-items: center;
 }
-
 .session-info {
   background: var(--container-bg);
   padding: 8px 20px;
@@ -598,7 +610,20 @@ body.dark-mode .form-button {
   text-decoration: none;
   font-weight: 500;
 }
-
+.loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid var(--container-border-color);
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+  margin: 50px auto;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -613,7 +638,7 @@ body.dark-mode .form-button {
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition-speed) ease;
 }
 .modal-overlay.visible {
   opacity: 1;
@@ -629,7 +654,7 @@ body.dark-mode .form-button {
   max-width: 500px;
   width: 90%;
   transform: scale(0.9);
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-speed) ease;
 }
 .modal-overlay.visible .modal-content {
   transform: scale(1);
@@ -639,7 +664,6 @@ body.dark-mode .form-button {
   margin-top: 0;
   font-family: "Russo One", sans-serif;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -650,7 +674,16 @@ body.dark-mode .form-button {
     transform: translateY(0);
   }
 }
-
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 @keyframes shake {
   10%,
   90% {
@@ -673,151 +706,87 @@ body.dark-mode .form-button {
 .shake {
   animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
-
-@keyframes pulse-day1 {
+@keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    box-shadow: 0 0 0 0 var(--pulse-color);
     transform: scale(1.1);
   }
   70% {
-    box-shadow: 0 0 10px 20px rgba(231, 76, 60, 0);
+    box-shadow: 0 0 10px 20px transparent;
     transform: scale(1.2);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
-    transform: scale(1.1);
-  }
-}
-@keyframes pulse-day2 {
-  0% {
-    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
-    transform: scale(1.1);
-  }
-  70% {
-    box-shadow: 0 0 10px 20px rgba(52, 152, 219, 0);
-    transform: scale(1.2);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
-    transform: scale(1.1);
-  }
-}
-@keyframes pulse-day3 {
-  0% {
-    box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7);
-    transform: scale(1.1);
-  }
-  70% {
-    box-shadow: 0 0 10px 20px rgba(241, 196, 15, 0);
-    transform: scale(1.2);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(241, 196, 15, 0);
-    transform: scale(1.1);
-  }
-}
-@keyframes pulse-day4 {
-  0% {
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
-    transform: scale(1.1);
-  }
-  70% {
-    box-shadow: 0 0 10px 20px rgba(46, 204, 113, 0);
-    transform: scale(1.2);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    box-shadow: 0 0 0 0 transparent;
     transform: scale(1.1);
   }
 }
 
-/* --- 7. RESPONSIVE DESIGN (ANPASSUNGEN FÜR MOBILE GERÄTE) --- */
-
-/* Breakpoint für Tablets und größere Smartphones */
+/* --- 7. RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
-  /* Allgemeinen Container-Abstand für mehr Platz reduzieren */
   .page-container,
   .login-container {
     padding: clamp(20px, 4vw, 30px);
   }
   .content-wrapper {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline: 10px;
   }
-
-  /* Seiten-Header untereinander anordnen */
   .page-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-
-  /* Fixierte Steuerungselemente anpassen */
   .fixed-controls {
     top: 10px;
-    left: 10px;
+    inset-inline-start: 10px;
     width: calc(100% - 20px);
   }
   #mute-btn,
-  #theme-btn {
+  #theme-btn,
+  #lang-btn {
     width: 45px;
     height: 45px;
     font-size: 1.5em;
+  }
+  #lang-btn {
+    font-size: 1em;
   }
   .session-info {
     padding: 6px 12px;
     gap: 10px;
     font-size: 0.9em;
   }
-
-  /* WICHTIG: Aufgaben-Karte wird zu einem stabilen vertikalen GRID */
   #tasks-map-container {
     display: grid;
-    grid-template-columns: 1fr; /* Eine einzige Spalte */
-    justify-items: center; /* Zentriert alle Elemente horizontal */
-    gap: 20px; /* Vertikaler Abstand zwischen den Grid-Items */
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 20px;
     padding: 20px 0;
   }
-
-  /* Tages-Trenner für mobile Ansicht anpassen */
   .map-day-divider {
-    margin: 10px 0; /* Reduzierter Abstand */
+    margin: 10px 0;
     font-size: 1em;
     width: 90%;
   }
-
-  /* Kleinere Map-Nodes auf Mobilgeräten */
   .map-node {
     width: 45px;
     height: 45px;
   }
-
-  /* Verbindungslinie wird ebenfalls vertikal */
-  .map-node:not(:last-child)::after {
-    top: 100%; /* Startet am unteren Rand der Station */
-    left: 50%; /* Zentriert horizontal */
+  .map-node:not(.is-day-end)::after {
+    top: 100%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
-    width: 4px; /* Breite der vertikalen Linie */
-    height: 20px; /* Länge der Linie (gleich dem grid-gap) */
+    width: 4px;
+    height: 20px;
   }
-
-  /* Farbverläufe der Linien anpassen auf vertikal */
-  .map-node[data-day="1"].completed::after {
-    background: linear-gradient(180deg, #e74c3c, #3498db);
+  .map-node[data-day="1"].completed:not(.is-day-end)::after {
+    background: linear-gradient(to bottom, #e74c3c, #3498db);
   }
-  .map-node[data-day="2"].completed::after {
-    background: linear-gradient(180deg, #3498db, #f1c40f);
+  .map-node[data-day="2"].completed:not(.is-day-end)::after {
+    background: linear-gradient(to bottom, #3498db, #f1c40f);
   }
-  .map-node[data-day="3"].completed::after {
-    background: linear-gradient(180deg, #f1c40f, #2ecc71);
+  .map-node[data-day="3"].completed:not(.is-day-end)::after {
+    background: linear-gradient(to bottom, #f1c40f, #2ecc71);
   }
-
-  /* Blendet die Verbindungslinie nach der letzten Aufgabe eines Tages (oder der allerletzten Aufgabe) aus. */
-  .map-node.is-day-end::after {
-    content: none;
-  }
-
-  /* Code-Eingabe-Bereich kompakter gestalten */
   .code-input {
     font-size: clamp(1.2rem, 8vw, 1.8rem);
   }
@@ -826,58 +795,41 @@ body.dark-mode .form-button {
     font-size: 1em;
   }
 }
-
-/* NEU: Breakpoint für sehr kleine Smartphones (z.B. iPhone SE) */
 @media (max-width: 480px) {
-  /* Kleinere Hauptüberschrift */
   h1 {
     font-size: 1.6rem;
     letter-spacing: 2px;
   }
-
-  /* Kleinere Seitenüberschriften */
   .page-header h2 {
     font-size: 1.5rem;
   }
-
-  /* Oberen Abstand reduzieren, um mehr Platz zu schaffen */
   .content-wrapper {
     padding-top: 80px;
     padding-bottom: 20px;
   }
-
-  /* Container-Padding weiter reduzieren */
   .page-container,
   .login-container {
     padding: 20px 15px;
     border-radius: 16px;
   }
-
-  /* Buttons etwas verkleinern, aber klickbar halten */
   .menu-button,
   .form-button,
   .check-button {
     padding: 14px 20px;
     font-size: 1em;
   }
-
-  /* Abstand im Formular verringern */
   .form-container {
     gap: 20px;
   }
   .form-box {
     gap: 12px;
   }
-
-  /* Abstand zwischen den Verdächtigen-Karten reduzieren */
   .suspects-list {
     gap: 20px;
   }
   .suspect-card {
     padding: 20px;
   }
-
-  /* Code-Eingabebereich kompakter machen */
   .task-action-area {
     padding: 15px;
     margin-top: 20px;
@@ -888,17 +840,45 @@ body.dark-mode .form-button {
   .check-button {
     padding: 0 15px;
   }
-
-  /* Logo verkleinern und Abstand anpassen */
   #main-logo {
-    height: 50px;
+    max-width: 120px;
     padding-top: 20px;
   }
-
-  /* Fixierte Steuerelemente noch näher an den Rand rücken */
   .fixed-controls {
     top: 5px;
-    left: 5px;
+    inset-inline-start: 5px;
     width: calc(100% - 10px);
   }
+}
+
+/* --- 8. MEHRSPRACHIGKEIT & RTL-ANPASSUNGEN --- */
+body.lang-ar {
+  font-family: "Tajawal", "Poppins", sans-serif;
+  direction: rtl;
+}
+body.lang-ar .back-button {
+  transform: scaleX(-1);
+}
+
+/* --- 9. TYPOGRAFISCHE ANPASSUNGEN FÜR ARABISCH --- */
+body.lang-ar {
+  line-height: 1.7;
+  font-weight: 500;
+}
+body.lang-ar h1,
+body.lang-ar h2,
+body.lang-ar h3 {
+  line-height: 1.4;
+  font-weight: 700;
+}
+body.lang-ar h1 {
+  letter-spacing: 1px;
+}
+body.lang-ar .code-input {
+  font-family: "Tajawal", "Courier New", Courier, monospace;
+  font-size: clamp(1.8rem, 5vw, 2.2rem);
+  font-weight: 700;
+}
+body.lang-ar .session-info {
+  gap: 12px;
 }

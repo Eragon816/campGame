@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -6,19 +7,21 @@
     <title>Der Hayat-Code - Menü</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <!-- NEU: data-page-title-key für die Übersetzung des Seitentitels -->
+  <body data-page-title-key="menu_page_title">
     <div class="fixed-controls">
       <div>
-        <!-- Linke Seite -->
         <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
         <button id="theme-btn" aria-label="Farbschema wechseln">
           <span>☀️</span>
         </button>
+        <!-- NEU: Sprachwechsel-Button -->
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
       </div>
       <div class="session-info">
-        <!-- Rechte Seite -->
-        <span>Team: <strong id="display-team-name"></strong></span>
-        <a href="#" id="logout-btn">Team verlassen</a>
+        <!-- NEU: Span um "Team:" für die Übersetzung -->
+        <span><span data-translate="team_text">Team</span>: <strong id="display-team-name"></strong></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text">Team verlassen</a>
       </div>
     </div>
 
@@ -26,13 +29,12 @@
 
     <div class="content-wrapper">
       <div class="login-container">
-        <!-- Wiederverwendung der login-container Klasse für Zentrierung -->
-        <h1>Der Hayat-Code</h1>
+        <h1 data-translate="main_title">Der Hayat-Code</h1>
         <nav class="menu-nav">
-          <a href="fall.html" class="menu-button">Fall</a>
-          <a href="verdaechtigte.html" class="menu-button">Verdächtigte</a>
-          <a href="hinweise.html" class="menu-button">Hinweise</a>
-          <a href="aufgaben.html" class="menu-button">Aufgaben</a>
+          <a href="fall.html" class="menu-button" data-translate="menu_button_fall">Fall</a>
+          <a href="verdaechtigte.html" class="menu-button" data-translate="menu_button_verdaechtigte">Verdächtigte</a>
+          <a href="hinweise.html" class="menu-button" data-translate="menu_button_hinweise">Hinweise</a>
+          <a href="aufgaben.html" class="menu-button" data-translate="menu_button_aufgaben">Aufgaben</a>
         </nav>
         <img
           src="./assets/New-Project.png"
@@ -44,6 +46,7 @@
 
     <!-- Die Skripte werden jetzt als Module geladen -->
     <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="translations.js"></script> <!-- NEU -->
     <script type="module" src="menu.js"></script>
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>

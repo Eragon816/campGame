@@ -1,11 +1,6 @@
-
-// hinweise.js - mit FIREBASE v9 Integration
-
-// Importiert die benötigten Daten aus data.js
 import { allClues } from "./data.js";
-
+import { translations } from "./translations.js";
 import { db } from "./firebase-init.js";
-// HINZUGEFÜGT: 'onValue' für Echtzeit-Updates. 'get' wird nicht mehr benötigt.
 import {
   ref,
   onValue,
@@ -13,56 +8,78 @@ import {
 
 document.addEventListener("DOMContentLoaded", () => {
   const cluesListContainer = document.getElementById("clues-list");
+  const clueCardTemplate = document.getElementById("clue-card-template");
+  const loader = document.getElementById("loader");
   const groupCode = localStorage.getItem("eragon-group-code");
+
+  // NEU: Lokaler Cache für freigeschaltete Hinweise
+  let cachedUnlockedCluesIds = [];
 
   if (!groupCode) {
     cluesListContainer.innerHTML =
       "<p>Keine Gruppe gefunden. Bitte melde dich zuerst an.</p>";
+    loader.style.display = "none";
+    cluesListContainer.dataset.loading = "false";
     return;
   }
 
   const groupProgressRef = ref(db, "progress/" + groupCode);
 
-  function renderClues(unlockedCluesIds = []) {
-    cluesListContainer.innerHTML = "";
-    const unlockedClues = allClues.filter((clue) =>
-      unlockedCluesIds.includes(clue.id)
-    );
+  const showLoader = (show) => {
+    loader.style.display = show ? "block" : "none";
+    cluesListContainer.dataset.loading = show;
+  };
 
-    if (unlockedClues.length === 0) {
-      cluesListContainer.innerHTML =
-        "<p>Noch keine Hinweise gefunden. Löst Aufgaben, um Hinweise freizuschalten!</p>";
+  function renderClues() {
+    const lang = localStorage.getItem("language") || "de";
+    const trans = translations[lang];
+    cluesListContainer.innerHTML = "";
+
+    const unlockedCluesData = allClues
+      .filter((clue) => cachedUnlockedCluesIds.includes(clue.id))
+      .map((clue) => ({
+        id: clue.id,
+        ...trans.clues[clue.id - 1],
+      }));
+
+    if (unlockedCluesData.length === 0) {
+      cluesListContainer.innerHTML = `<p>${trans.no_clues_found}</p>`;
       return;
     }
 
-    unlockedClues.sort((a, b) => a.id - b.id);
+    unlockedCluesData.sort((a, b) => a.id - b.id);
 
-    unlockedClues.forEach((clue) => {
-      const clueCard = document.createElement("div");
-      clueCard.className = "clue-card";
-      clueCard.innerHTML = `
-                <h3 class="clue-type">${clue.type}</h3>
-                <p class="clue-text">${clue.text}</p>
-            `;
-      cluesListContainer.appendChild(clueCard);
+    unlockedCluesData.forEach((clue) => {
+      // NEU: Template nutzen
+      const cardClone = clueCardTemplate.content.cloneNode(true);
+      cardClone.querySelector(".clue-type").textContent = clue.type;
+      cardClone.querySelector(".clue-text").textContent = clue.text;
+      cluesListContainer.appendChild(cardClone);
     });
   }
-  
-  // *** START DER ÄNDERUNG: 'get' wurde durch 'onValue' ersetzt ***
-  // Diese Funktion lauscht nun auf Änderungen und aktualisiert die Ansicht automatisch.
-  onValue(groupProgressRef, (snapshot) => {
-    if (snapshot.exists()) {
+
+  // Der Haupt-Listener, der mit Firebase synchronisiert
+  onValue(
+    groupProgressRef,
+    (snapshot) => {
       const progress = snapshot.val();
-      // Stelle sicher, dass unlockedClues ein Array ist, auch wenn es in Firebase null ist
-      renderClues(progress.unlockedClues || []);
-    } else {
-      // Wird aufgerufen, wenn für die Gruppe noch kein Fortschritt existiert
-      renderClues([]);
+      cachedUnlockedCluesIds = progress?.unlockedClues || [];
+      renderClues(); // Mit neuen Daten rendern
+      showLoader(false); // Lade-Spinner ausblenden
+    },
+    (error) => {
+      console.error("Fehler beim Laden der Hinweise:", error);
+      cluesListContainer.innerHTML = "<p>Fehler beim Laden der Hinweise.</p>";
+      showLoader(false);
     }
-  }, (error) => {
-    // Fehlerbehandlung für den Fall, dass die Verbindung fehlschlägt
-    console.error("Fehler beim Laden der Hinweise:", error);
-    cluesListContainer.innerHTML = "<p>Fehler beim Laden der Hinweise.</p>";
+  );
+
+  // NEU: Auf Sprachwechsel lauschen und aus dem Cache neu rendern
+  window.addEventListener("languageChanged", () => {
+    // Kein erneuter Firebase-Call nötig, wir haben die Daten ja schon!
+    renderClues();
   });
-  // *** ENDE DER ÄNDERUNG ***
+
+  // Initialer Ladezustand
+  showLoader(true);
 });

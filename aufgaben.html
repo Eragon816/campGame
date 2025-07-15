@@ -6,19 +6,23 @@
     <title>Aufgaben - Der Hayat-Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-page-title-key="tasks_page_title">
     <div class="fixed-controls">
       <div>
-        <!-- Linke Seite -->
         <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
         <button id="theme-btn" aria-label="Farbschema wechseln">
           <span>☀️</span>
         </button>
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
       </div>
       <div class="session-info">
-        <!-- Rechte Seite -->
-        <span>Team: <strong id="display-team-name"></strong></span>
-        <a href="#" id="logout-btn">Team verlassen</a>
+        <span
+          ><span data-translate="team_text">Team</span>:
+          <strong id="display-team-name"></strong
+        ></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text"
+          >Team verlassen</a
+        >
       </div>
     </div>
 
@@ -27,17 +31,20 @@
     <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
-          <h2>Aufgaben-Karte</h2>
-          <a href="menu.html" class="back-button">← Zurück zum Menü</a>
+          <h2 data-translate="tasks_title">Aufgaben-Karte</h2>
+          <a
+            href="menu.html"
+            class="back-button"
+            data-translate="back_to_menu_btn"
+            >← Zurück zum Menü</a
+          >
         </header>
-        <main class="page-content">
-          <!-- Visuelle Karte der Aufgaben -->
+        <div id="loader" class="loader"></div>
+        <main class="page-content" data-loading="true">
           <div id="tasks-map-container">
             <!-- Map-Stationen werden hier dynamisch per JavaScript eingefügt -->
           </div>
-
-          <!-- Container für die jeweils aktive Aufgabe -->
-          <div id="current-task-display" style="display: none">
+          <div id="current-task-display">
             <!-- Inhalt wird dynamisch per JavaScript eingefügt -->
           </div>
         </main>
@@ -48,12 +55,34 @@
       <div class="modal-content">
         <h2 id="modal-clue-title">Neuer Hinweis!</h2>
         <p id="modal-clue-text">Hier steht der Text des Hinweises...</p>
-        <button id="modal-close-btn" class="form-button primary">Super!</button>
+        <button
+          id="modal-close-btn"
+          class="form-button primary"
+          data-translate="clue_modal_button"
+        >
+          Super!
+        </button>
       </div>
     </div>
 
-    <!-- Die Skripte werden jetzt als Module geladen -->
+    <!-- WICHTIG: Dieses Template ist für aufgaben.js notwendig! -->
+    <template id="task-card-template">
+      <div class="task-card active-task">
+        <div class="task-header">
+          <h3 class="task-title"></h3>
+        </div>
+        <p class="task-description"></p>
+        <div class="task-action-area">
+          <div class="task-input-wrapper">
+            <input type="text" class="code-input" maxlength="15" />
+            <button class="check-button form-button"></button>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="translations.js"></script>
     <script type="module" src="data.js"></script>
     <script type="module" src="aufgaben.js"></script>
     <script type="module" src="background.js"></script>

@@ -1,18 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Der Titel wird dynamisch von global.js gesetzt -->
     <title>Der Hayat-Code - Gruppe beitreten</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <!-- NEU: data-page-title-key für die Übersetzung des Seitentitels -->
+  <body data-page-title-key="login_page_title">
     <div class="fixed-controls">
       <div>
         <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
         <button id="theme-btn" aria-label="Farbschema wechseln">
           <span>☀️</span>
         </button>
+        <!-- NEU: Sprachwechsel-Button -->
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
       </div>
       <div></div>
     </div>
@@ -21,11 +26,13 @@
 
     <div class="content-wrapper">
       <div id="start-screen" class="login-container">
-        <h1>Der Hayat-Code</h1>
+        <!-- NEU: data-translate Attribut -->
+        <h1 data-translate="main_title">Der Hayat-Code</h1>
         <button
           id="enter-game-btn"
           class="form-button primary"
           style="margin-top: 30px; transform: scale(1.2)"
+          data-translate="enter_game_btn"
         >
           Spiel betreten
         </button>
@@ -41,11 +48,15 @@
         class="login-container"
         style="display: none"
       >
-        <h1>Gruppe beitreten</h1>
+        <!-- NEU: data-translate Attribut -->
+        <h1 data-translate="join_group_title">Gruppe beitreten</h1>
         <div class="form-container">
           <div class="form-box">
             <select id="group-select" class="input-field">
-              <option value="">-- Wähle deine Gruppe --</option>
+              <!-- NEU: data-translate Attribut -->
+              <option value="" data-translate="group_select_placeholder">
+                -- Wähle deine Gruppe --
+              </option>
               <!-- Optionen werden per JS eingefügt -->
             </select>
             <input
@@ -53,8 +64,13 @@
               id="group-code-input"
               placeholder="Gruppen-Code eingeben"
               class="input-field"
+              data-translate="group_code_placeholder"
             />
-            <button id="join-group-btn" class="form-button primary">
+            <button
+              id="join-group-btn"
+              class="form-button primary"
+              data-translate="join_group_btn"
+            >
               Spiel starten
             </button>
             <p
@@ -73,6 +89,8 @@
 
     <!-- Die Skripte werden jetzt als Module geladen -->
     <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="translations.js"></script>
+    <!-- NEU -->
     <script type="module" src="groups.js"></script>
     <script type="module" src="login.js"></script>
     <script type="module" src="background.js"></script>
