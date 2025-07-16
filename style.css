@@ -231,7 +231,6 @@ body.dark-mode .form-button {
   border-color: #8180f0;
 }
 
-/* KORRIGIERT: Styling für den neuen Zurück-Button */
 .back-button {
   text-decoration: none;
   font-weight: 500;
@@ -243,10 +242,9 @@ body.dark-mode .form-button {
   transition: all var(--transition-speed) ease;
   white-space: nowrap;
   background-color: transparent;
-  /* NEU: Flexbox für die Ausrichtung von Pfeil und Text */
   display: inline-flex;
   align-items: center;
-  gap: 8px; /* Abstand zwischen Pfeil und Text */
+  gap: 8px;
 }
 .back-button:hover {
   opacity: 1;
@@ -738,12 +736,20 @@ body:not(.lang-ar) .suspect-statement p::after {
     padding: 15px;
     margin-top: 20px;
   }
+
+  /* KORREKTUR: Responsive Anpassung für die Code-Eingabe */
+  .task-input-wrapper {
+    flex-direction: column; /* Stellt den Input und Button untereinander */
+    align-items: stretch; /* Sorgt dafür, dass beide die volle Breite einnehmen */
+  }
   .code-input {
     font-size: 1.2rem;
   }
   .check-button {
-    padding: 0 15px;
+    width: 100%; /* Button nimmt die volle Breite ein */
+    padding: 14px 15px;
   }
+
   #main-logo {
     max-width: 120px;
     padding-top: 20px;
@@ -760,8 +766,6 @@ body.lang-ar {
   font-family: "Tajawal", "Poppins", sans-serif;
   direction: rtl;
 }
-
-/* KORRIGIERT: Nur den Pfeil spiegeln, nicht den ganzen Button */
 body.lang-ar .back-arrow {
   transform: scaleX(-1);
 }
