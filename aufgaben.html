@@ -1,3 +1,5 @@
+<!-- START OF FILE aufgaben.html -->
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -32,19 +34,20 @@
       <div class="page-container">
         <header class="page-header">
           <h2 data-translate="tasks_title">Aufgaben-Karte</h2>
-          <a
-            href="menu.html"
-            class="back-button"
-            data-translate="back_to_menu_btn"
-            >← Zurück zum Menü</a
-          >
+          <!-- KORRIGIERT: Neue Button-Struktur -->
+          <a href="menu.html" class="back-button">
+            <span class="back-arrow">←</span>
+            <span class="back-text" data-translate="back_to_menu_btn"
+              >Zurück zum Menü</span
+            >
+          </a>
         </header>
         <div id="loader" class="loader"></div>
         <main class="page-content" data-loading="true">
-          <div id="tasks-map-container">
-            <!-- Map-Stationen werden hier dynamisch per JavaScript eingefügt -->
+          <div id="tasks-list-container">
+            <!-- Aufgaben werden hier dynamisch per JavaScript eingefügt -->
           </div>
-          <div id="current-task-display">
+          <div id="all-tasks-done-message" style="display: none">
             <!-- Inhalt wird dynamisch per JavaScript eingefügt -->
           </div>
         </main>
@@ -65,17 +68,21 @@
       </div>
     </div>
 
-    <!-- WICHTIG: Dieses Template ist für aufgaben.js notwendig! -->
-    <template id="task-card-template">
-      <div class="task-card active-task">
-        <div class="task-header">
-          <h3 class="task-title"></h3>
-        </div>
-        <p class="task-description"></p>
-        <div class="task-action-area">
-          <div class="task-input-wrapper">
-            <input type="text" class="code-input" maxlength="15" />
-            <button class="check-button form-button"></button>
+    <!-- OPTIMIERT: Template OHNE das "task-day-tag" Element -->
+    <template id="task-list-item-template">
+      <div class="task-list-item">
+        <div class="task-status-icon"></div>
+        <div class="task-content">
+          <div class="task-header">
+            <h3 class="task-title"></h3>
+            <!-- Das Span für den Tag wurde hier entfernt -->
+          </div>
+          <p class="task-description"></p>
+          <div class="task-action-area" style="display: none">
+            <div class="task-input-wrapper">
+              <input type="text" class="code-input" maxlength="15" />
+              <button class="check-button form-button"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -89,3 +96,5 @@
     <script type="module" src="global.js"></script>
   </body>
 </html>
+
+<!-- END OF FILE aufgaben.html -->

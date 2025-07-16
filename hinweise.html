@@ -1,3 +1,5 @@
+<!-- START OF FILE hinweise.html -->
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -8,7 +10,22 @@
   </head>
   <body data-page-title-key="clues_page_title">
     <div class="fixed-controls">
-      <!-- ... (unverändert) ... -->
+      <div>
+        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
+        <button id="theme-btn" aria-label="Farbschema wechseln">
+          <span>☀️</span>
+        </button>
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
+      </div>
+      <div class="session-info">
+        <span
+          ><span data-translate="team_text">Team</span>:
+          <strong id="display-team-name"></strong
+        ></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text"
+          >Team verlassen</a
+        >
+      </div>
     </div>
 
     <canvas id="canvas-background"></canvas>
@@ -17,14 +34,14 @@
       <div class="page-container">
         <header class="page-header">
           <h2 data-translate="clues_title">Gesammelte Hinweise</h2>
-          <a
-            href="menu.html"
-            class="back-button"
-            data-translate="back_to_menu_btn"
-            >← Zurück zum Menü</a
-          >
+          <!-- KORRIGIERT: Neue Button-Struktur -->
+          <a href="menu.html" class="back-button">
+            <span class="back-arrow">←</span>
+            <span class="back-text" data-translate="back_to_menu_btn"
+              >Zurück zum Menü</span
+            >
+          </a>
         </header>
-        <!-- NEU: Lade-Spinner und page-content als Wrapper -->
         <div id="loader" class="loader"></div>
         <main class="page-content" id="clues-list" data-loading="true">
           <!-- Hinweise werden hier dynamisch per JavaScript eingefügt -->
@@ -32,7 +49,6 @@
       </div>
     </div>
 
-    <!-- NEU: Template für Hinweis-Karten -->
     <template id="clue-card-template">
       <div class="clue-card">
         <h3 class="clue-type"></h3>
@@ -48,3 +64,5 @@
     <script type="module" src="global.js"></script>
   </body>
 </html>
+
+<!-- END OF FILE hinweise.html -->

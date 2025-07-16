@@ -1,16 +1,15 @@
-// translations.js
+// --- START OF FILE translations.js ---
 
 export const translations = {
   // =================================================================
-  // DEUTSCHE ÜBERSETZUNGEN (unverändert)
+  // DEUTSCHE ÜBERSETZUNGEN
   // =================================================================
   de: {
-    // ... (keine Änderungen hier)
     // Globale Elemente & Buttons
     lang_btn_text: "AR",
     team_text: "Team",
     logout_btn_text: "Team verlassen",
-    back_to_menu_btn: "← Zurück zum Menü",
+    back_to_menu_btn: "Zurück zum Menü", // Pfeil entfernt
     confirm_btn: "Bestätigen",
     clue_modal_title: "Neuer Hinweis!",
     clue_modal_button: "Super!",
@@ -70,12 +69,12 @@ export const translations = {
     tasks_page_title: "Aufgaben - Der Hayat-Code",
     tasks_title: "Aufgaben-Karte",
     task_code_placeholder: "CODE",
-    tasks_day_prefix: "Tag",
+    tasks_day_prefix: "Tag", // Wird nicht mehr angezeigt, aber schadet nicht
     tasks_all_done_title: "🎉 Fantastisch! 🎉",
     tasks_all_done_text:
       "Ihr habt alle Aufgaben gemeistert und alle Hinweise gesammelt. Geht zur Hinweise-Seite, um eure finalen Schlüsse zu ziehen!",
 
-    // Aufgaben (ersetzen Titel und Beschreibung aus data.js)
+    // Aufgaben
     tasks: [
       {
         title: "Zimmer-Check Deluxe",
@@ -179,7 +178,7 @@ export const translations = {
       },
     ],
 
-    // Hinweise (ersetzen Text und Typ aus data.js)
+    // Hinweise
     clues: [
       {
         type: "Zettel",
@@ -264,21 +263,21 @@ export const translations = {
     ],
   },
   // =================================================================
-  // ARABISCHE ÜBERSETZUNGEN (NEU & OPTIMIERT)
+  // ARABISCHE ÜBERSETZUNGEN
   // =================================================================
   ar: {
     // Globale Elemente & Buttons
     lang_btn_text: "DE",
     team_text: "فريق",
     logout_btn_text: "مغادرة الفريق",
-    back_to_menu_btn: "→ العودة للقائمة",
+    back_to_menu_btn: "العودة للقائمة", // Pfeil entfernt
     confirm_btn: "تأكيد",
     clue_modal_title: "دليل جديد!",
     clue_modal_button: "رائع!",
 
     // Login-Seite (index.html)
-    login_page_title: "شفرة حياة - الانضمام لفريق",
-    main_title: "شفرة حياة",
+    login_page_title: "شيفرة حياة - الانضمام لفريق",
+    main_title: "شيفرة حياة",
     enter_game_btn: "ابدأ المغامرة",
     join_group_title: "انضم إلى فريقك",
     group_select_placeholder: "-- اختر فريقك --",
@@ -288,14 +287,14 @@ export const translations = {
     login_error_wrong: "رمز الفريق غير صحيح. حاول مجدداً.",
 
     // Menü-Seite (menu.html)
-    menu_page_title: "شفرة حياة - القائمة الرئيسية",
+    menu_page_title: "شيفرة حياة - القائمة الرئيسية",
     menu_button_fall: "القضية",
     menu_button_verdaechtigte: "المشتبه بهم",
     menu_button_hinweise: "الأدلة",
     menu_button_aufgaben: "المهام",
 
     // Fall-Seite (fall.html)
-    fall_page_title: "القضية - شفرة حياة",
+    fall_page_title: "القضية - شيفرة حياة",
     fall_title: "القضية الغامضة",
     fall_p1:
       "الكأس الذهبي قد اختفى! تمت سرقته بالأمس بين الساعة ٨:٠٠ و ٩:٣٠ مساءً من القاعة المشتركة. كان المكان يعج بالحياة، لكن لا أحد يدّعي أنه رأى شيئًا. لا يوجد شهود على السرقة نفسها، فقط سلسلة من الأحداث الغريبة والأشياء التي تُركت في مسرح الجريمة.",
@@ -307,7 +306,7 @@ export const translations = {
     fall_question2: "كيف تمت السرقة بالضبط؟ (اشرحوا تفاصيل الخطة)",
 
     // Verdächtigte-Seite (verdaechtigte.html)
-    suspects_page_title: "المشتبه بهم - شفرة حياة",
+    suspects_page_title: "المشتبه بهم - شيفرة حياة",
     suspects_title: "قائمة المشتبه بهم",
     suspect_mahmoud_quote:
       '"كنت قاعد على الكنبة، حاطط سماعاتي وعم أسترخي. الناس كانت رايحة جاية، بس أنا ما كنت منتبه لشي. صراحة، أنا آخر واحد ممكن يكون شاف شي."',
@@ -321,21 +320,21 @@ export const translations = {
       '"كنت بغرفتي عم أقرأ. نزلت مرة وحدة بس لأشتري مي من الماكينة. وقتها كان كل شي طبيعي. بس مستغرب كيف الكأس بيختفي ومحمود كان قاعد جنبه كل الوقت."',
 
     // Hinweise-Seite (hinweise.html)
-    clues_page_title: "الأدلة - شفرة حياة",
+    clues_page_title: "الأدلة - شيفرة حياة",
     clues_title: "الأدلة التي تم جمعها",
     no_clues_found:
       "لم يتم العثور على أدلة بعد. أنجزوا المهام لكشف المزيد من الأسرار!",
 
     // Aufgaben-Seite (aufgaben.html)
-    tasks_page_title: "المهام - شفرة حياة",
+    tasks_page_title: "المهام - شيفرة حياة",
     tasks_title: "خريطة المهام",
     task_code_placeholder: "الرمز",
-    tasks_day_prefix: "اليوم",
+    tasks_day_prefix: "اليوم", // Wird nicht mehr angezeigt, aber schadet nicht
     tasks_all_done_title: "🎉 عمل رائع أيها المحققون! 🎉",
     tasks_all_done_text:
       "لقد أنجزتم كل المهام وجمعتم كل الأدلة. توجهوا الآن إلى صفحة الأدلة لحل اللغز النهائي!",
 
-    // Aufgaben (Titel und Beschreibungen klingen jetzt natürlicher)
+    // Aufgaben
     tasks: [
       {
         title: "غرفة على سنقة عشرة",
@@ -435,7 +434,7 @@ export const translations = {
       },
     ],
 
-    // Hinweise (Texte klingen jetzt geheimnisvoller auf Arabisch)
+    // Hinweise
     clues: [
       {
         type: "قصاصة ورق",

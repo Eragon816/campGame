@@ -1,3 +1,4 @@
+<!-- START OF FILE fall.html -->
 
 <!DOCTYPE html>
 <html lang="de">
@@ -7,7 +8,6 @@
     <title>Der Fall - Der Hayat-Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <!-- NEU: data-page-title-key für die Übersetzung des Seitentitels -->
   <body data-page-title-key="fall_page_title">
     <div class="fixed-controls">
       <div>
@@ -15,12 +15,16 @@
         <button id="theme-btn" aria-label="Farbschema wechseln">
           <span>☀️</span>
         </button>
-        <!-- NEU: Sprachwechsel-Button -->
         <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
       </div>
       <div class="session-info">
-        <span><span data-translate="team_text">Team</span>: <strong id="display-team-name"></strong></span>
-        <a href="#" id="logout-btn" data-translate="logout_btn_text">Team verlassen</a>
+        <span
+          ><span data-translate="team_text">Team</span>:
+          <strong id="display-team-name"></strong
+        ></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text"
+          >Team verlassen</a
+        >
       </div>
     </div>
 
@@ -30,7 +34,13 @@
       <div class="page-container">
         <header class="page-header">
           <h2 data-translate="fall_title">Der Fall</h2>
-          <a href="menu.html" class="back-button" data-translate="back_to_menu_btn">← Zurück zum Menü</a>
+          <!-- KORRIGIERT: Neue Button-Struktur -->
+          <a href="menu.html" class="back-button">
+            <span class="back-arrow">←</span>
+            <span class="back-text" data-translate="back_to_menu_btn"
+              >Zurück zum Menü</span
+            >
+          </a>
         </header>
         <main class="page-content">
           <p data-translate="fall_p1">
@@ -41,7 +51,9 @@
           <p data-translate="fall_mission_p1">
             Die Teams schlüpfen in die Rolle von "Ermittlern"...
           </p>
-          <h3 data-translate="fall_questions_title">Die finalen Fragen (am Ende des Spiels)</h3>
+          <h3 data-translate="fall_questions_title">
+            Die finalen Fragen (am Ende des Spiels)
+          </h3>
           <ul>
             <li data-translate="fall_question1">WER war der Täter?</li>
             <li data-translate="fall_question2">
@@ -52,10 +64,11 @@
       </div>
     </div>
 
-    <!-- Die Skripte werden jetzt als Module geladen -->
     <script type="module" src="firebase-init.js"></script>
-    <script type="module" src="translations.js"></script> <!-- NEU -->
+    <script type="module" src="translations.js"></script>
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>
   </body>
 </html>
+
+<!-- END OF FILE fall.html -->

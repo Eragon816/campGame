@@ -1,3 +1,5 @@
+<!-- START OF FILE verdaechtigte.html -->
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -8,25 +10,40 @@
   </head>
   <body data-page-title-key="suspects_page_title">
     <div class="fixed-controls">
-      <!-- ... (unverändert) ... -->
+      <div>
+        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
+        <button id="theme-btn" aria-label="Farbschema wechseln">
+          <span>☀️</span>
+        </button>
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
+      </div>
+      <div class="session-info">
+        <span
+          ><span data-translate="team_text">Team</span>:
+          <strong id="display-team-name"></strong
+        ></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text"
+          >Team verlassen</a
+        >
+      </div>
     </div>
     <canvas id="canvas-background"></canvas>
     <div class="content-wrapper scrollable">
       <div class="page-container">
         <header class="page-header">
           <h2 data-translate="suspects_title">Die Verdächtigen</h2>
-          <a
-            href="menu.html"
-            class="back-button"
-            data-translate="back_to_menu_btn"
-            >← Zurück zum Menü</a
-          >
+          <!-- KORRIGIERT: Neue Button-Struktur -->
+          <a href="menu.html" class="back-button">
+            <span class="back-arrow">←</span>
+            <span class="back-text" data-translate="back_to_menu_btn"
+              >Zurück zum Menü</span
+            >
+          </a>
         </header>
         <main class="page-content">
           <div class="suspects-list">
             <!-- === Mahmoud === -->
             <div class="suspect-card">
-              <!-- NEU: Emoji statt Bild -->
               <div class="suspect-emoji">🎧</div>
               <h3 class="suspect-name">Mahmoud</h3>
               <blockquote class="suspect-statement">
@@ -37,7 +54,6 @@
             </div>
             <!-- === Majd === -->
             <div class="suspect-card">
-              <!-- NEU: Emoji statt Bild -->
               <div class="suspect-emoji">📱</div>
               <h3 class="suspect-name">Majd</h3>
               <blockquote class="suspect-statement">
@@ -48,7 +64,6 @@
             </div>
             <!-- === Esther === -->
             <div class="suspect-card">
-              <!-- NEU: Emoji statt Bild -->
               <div class="suspect-emoji">😠</div>
               <h3 class="suspect-name">Esther</h3>
               <blockquote class="suspect-statement">
@@ -59,7 +74,6 @@
             </div>
             <!-- === Rami === -->
             <div class="suspect-card">
-              <!-- NEU: Emoji statt Bild -->
               <div class="suspect-emoji">🎮</div>
               <h3 class="suspect-name">Rami</h3>
               <blockquote class="suspect-statement">
@@ -70,7 +84,6 @@
             </div>
             <!-- === Motaz === -->
             <div class="suspect-card">
-              <!-- NEU: Emoji statt Bild -->
               <div class="suspect-emoji">🧠</div>
               <h3 class="suspect-name">Motaz</h3>
               <blockquote class="suspect-statement">
@@ -83,10 +96,11 @@
         </main>
       </div>
     </div>
-    <!-- Scripts -->
     <script type="module" src="firebase-init.js"></script>
     <script type="module" src="translations.js"></script>
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>
   </body>
 </html>
+
+<!-- END OF FILE verdaechtigte.html -->

@@ -112,7 +112,6 @@ body {
   text-align: left;
 }
 
-/* KORREKTUR: Robuste Lade-Anzeige */
 .page-content {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
@@ -145,15 +144,16 @@ body {
 h1 {
   font-family: "Russo One", sans-serif;
   color: var(--primary-color);
-  body.dark-mode & {
-    color: var(--text-color-strong);
-    text-shadow: 0 0 10px var(--primary-color);
-  }
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: var(--font-size-xl);
   margin-bottom: 0;
 }
+body.dark-mode h1 {
+  color: var(--text-color-strong);
+  text-shadow: 0 0 10px var(--primary-color);
+}
+
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -231,6 +231,7 @@ body.dark-mode .form-button {
   border-color: #8180f0;
 }
 
+/* KORRIGIERT: Styling für den neuen Zurück-Button */
 .back-button {
   text-decoration: none;
   font-weight: 500;
@@ -242,6 +243,10 @@ body.dark-mode .form-button {
   transition: all var(--transition-speed) ease;
   white-space: nowrap;
   background-color: transparent;
+  /* NEU: Flexbox für die Ausrichtung von Pfeil und Text */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Abstand zwischen Pfeil und Text */
 }
 .back-button:hover {
   opacity: 1;
@@ -340,7 +345,7 @@ body:not(.lang-ar) .suspect-statement p::after {
   opacity: 0.9;
 }
 
-/* 5.3 CODE EINGABE */
+/* 5.3 CODE EINGABE (Teil der Aufgaben-Karte) */
 .task-action-area {
   background: var(--input-bg);
   border-radius: 12px;
@@ -362,25 +367,56 @@ body:not(.lang-ar) .suspect-statement p::after {
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: bold;
   border-radius: 12px;
+  padding: 8px;
 }
 .check-button {
   flex-shrink: 0;
   padding: 0 30px;
 }
-.task-card {
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--container-border-color);
-  border-radius: 16px;
+
+/* 5.4 AUFGABEN-LISTE */
+#tasks-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.task-list-item {
+  display: flex;
+  gap: 20px;
+  background: var(--input-bg);
   padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--container-border-color);
+  border-inline-start: 5px solid
+    var(--task-day-color, var(--container-border-color));
   transition: all 0.3s ease;
+  opacity: 0.5;
+}
+.task-status-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  font-size: 1.5rem;
+  font-family: "Russo One", sans-serif;
+  color: var(--text-color);
+}
+.task-content {
+  flex-grow: 1;
 }
 .task-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 }
+
 .task-title {
   margin: 0;
   font-size: 1.2em;
@@ -388,150 +424,48 @@ body:not(.lang-ar) .suspect-statement p::after {
   color: var(--text-color-strong);
 }
 .task-description {
-  margin-bottom: 20px;
+  margin: 0 0 15px 0;
   opacity: 0.9;
 }
 
-/* 5.4 AUFGABEN-KARTE */
-#tasks-map-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 20px 40px;
-  padding: 30px 10px;
-  margin-bottom: 30px;
-  position: relative;
+/* Zustände der Aufgaben-Karten */
+.task-list-item.locked {
+  opacity: 0.4;
+  filter: grayscale(50%);
 }
-.map-day-divider {
-  flex-basis: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  color: var(--text-color-strong);
-  font-family: "Russo One", sans-serif;
-  font-size: 1.2em;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin: 40px 0 25px 0;
-}
-#tasks-map-container > .map-day-divider:first-of-type {
-  margin-top: 10px;
-}
-.map-day-divider span {
-  padding: 0 15px;
-  white-space: nowrap;
-}
-.map-day-divider::before,
-.map-day-divider::after {
-  content: "";
-  flex-grow: 1;
-  height: 2px;
-  background: var(--container-border-color);
-  border-radius: 2px;
-}
-.map-day-divider[data-day="1"]::before,
-.map-day-divider[data-day="1"]::after {
-  background: #e74c3c;
-}
-.map-day-divider[data-day="2"]::before,
-.map-day-divider[data-day="2"]::after {
-  background: #3498db;
-}
-.map-day-divider[data-day="3"]::before,
-.map-day-divider[data-day="3"]::after {
-  background: #f1c40f;
-}
-.map-day-divider[data-day="4"]::before,
-.map-day-divider[data-day="4"]::after {
-  background: #2ecc71;
-}
-.map-node {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Russo One", sans-serif;
-  font-size: 1.5em;
-  color: #fff;
-  position: relative;
-  transition: all 0.4s ease;
-  border: 3px solid;
-}
-.map-node:not(.is-day-end)::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  inset-inline-start: 100%;
-  transform: translateY(-50%);
-  height: 4px;
-  width: 40px;
-  background-color: var(--container-border-color);
-  z-index: -1;
-  transition: background-color 0.4s ease 0.2s;
-}
-.map-node.locked {
-  background-color: var(--input-bg);
-  border-color: var(--container-border-color);
+.task-list-item.locked .task-title {
   color: var(--text-color);
-  opacity: 0.6;
 }
-.map-node.locked .lock-icon {
-  font-size: 0.8em;
+
+.task-list-item.active {
+  opacity: 1;
+  border-inline-start-color: var(--task-day-color);
+  box-shadow: 0 0 20px var(--task-day-color);
+  transform: scale(1.02);
 }
-#current-task-display {
-  margin-top: 20px;
+.task-list-item.active .task-status-icon {
+  background-color: var(--task-day-color);
+  color: #fff;
+  animation: pulse-icon 2s infinite;
 }
-.task-card.active-task {
-  border: 2px solid var(--day-color, var(--primary-color));
-  box-shadow: 0 0 15px var(--day-color, var(--primary-color));
+
+.task-list-item.completed {
+  opacity: 0.7;
+  border-inline-start-color: var(--task-day-color);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.2);
 }
-.map-node[data-day="1"].active {
-  --pulse-color: rgba(231, 76, 60, 0.7);
+.task-list-item.completed .task-status-icon {
+  background-color: var(--success-color);
+  color: #fff;
 }
-.map-node[data-day="2"].active {
-  --pulse-color: rgba(52, 152, 219, 0.7);
-}
-.map-node[data-day="3"].active {
-  --pulse-color: rgba(241, 196, 15, 0.7);
-}
-.map-node[data-day="4"].active {
-  --pulse-color: rgba(46, 204, 113, 0.7);
-}
-.map-node[data-day="1"].completed,
-.map-node[data-day="1"].active {
-  background-color: #e74c3c;
-  border-color: #fff;
-}
-.map-node[data-day="1"].completed:not(.is-day-end)::after {
-  background: linear-gradient(to right, #e74c3c, #3498db);
-}
-.map-node[data-day="2"].completed,
-.map-node[data-day="2"].active {
-  background-color: #3498db;
-  border-color: #fff;
-}
-.map-node[data-day="2"].completed:not(.is-day-end)::after {
-  background: linear-gradient(to right, #3498db, #f1c40f);
-}
-.map-node[data-day="3"].completed,
-.map-node[data-day="3"].active {
-  background-color: #f1c40f;
-  border-color: #fff;
-  color: #333;
-}
-.map-node[data-day="3"].completed:not(.is-day-end)::after {
-  background: linear-gradient(to right, #f1c40f, #2ecc71);
-}
-.map-node[data-day="4"].completed,
-.map-node[data-day="4"].active {
-  background-color: #2ecc71;
-  border-color: #fff;
-}
-.map-node.active {
-  animation: pulse 2s infinite;
+
+.task-card.erledigt {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--container-border-color);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 /* 5.5 SONSTIGE KOMPONENTEN */
@@ -624,6 +558,7 @@ body:not(.lang-ar) .suspect-statement p::after {
     transform: rotate(360deg);
   }
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -706,18 +641,15 @@ body:not(.lang-ar) .suspect-statement p::after {
 .shake {
   animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
-@keyframes pulse {
+@keyframes pulse-icon {
   0% {
-    box-shadow: 0 0 0 0 var(--pulse-color);
-    transform: scale(1.1);
+    box-shadow: 0 0 0 0 var(--task-day-color);
   }
   70% {
-    box-shadow: 0 0 10px 20px transparent;
-    transform: scale(1.2);
+    box-shadow: 0 0 0 10px transparent;
   }
   100% {
     box-shadow: 0 0 0 0 transparent;
-    transform: scale(1.1);
   }
 }
 
@@ -754,38 +686,6 @@ body:not(.lang-ar) .suspect-statement p::after {
     padding: 6px 12px;
     gap: 10px;
     font-size: 0.9em;
-  }
-  #tasks-map-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    gap: 20px;
-    padding: 20px 0;
-  }
-  .map-day-divider {
-    margin: 10px 0;
-    font-size: 1em;
-    width: 90%;
-  }
-  .map-node {
-    width: 45px;
-    height: 45px;
-  }
-  .map-node:not(.is-day-end)::after {
-    top: 100%;
-    inset-inline-start: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 20px;
-  }
-  .map-node[data-day="1"].completed:not(.is-day-end)::after {
-    background: linear-gradient(to bottom, #e74c3c, #3498db);
-  }
-  .map-node[data-day="2"].completed:not(.is-day-end)::after {
-    background: linear-gradient(to bottom, #3498db, #f1c40f);
-  }
-  .map-node[data-day="3"].completed:not(.is-day-end)::after {
-    background: linear-gradient(to bottom, #f1c40f, #2ecc71);
   }
   .code-input {
     font-size: clamp(1.2rem, 8vw, 1.8rem);
@@ -830,6 +730,10 @@ body:not(.lang-ar) .suspect-statement p::after {
   .suspect-card {
     padding: 20px;
   }
+  .task-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .task-action-area {
     padding: 15px;
     margin-top: 20px;
@@ -856,7 +760,9 @@ body.lang-ar {
   font-family: "Tajawal", "Poppins", sans-serif;
   direction: rtl;
 }
-body.lang-ar .back-button {
+
+/* KORRIGIERT: Nur den Pfeil spiegeln, nicht den ganzen Button */
+body.lang-ar .back-arrow {
   transform: scaleX(-1);
 }
 
