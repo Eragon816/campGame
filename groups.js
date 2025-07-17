@@ -4,19 +4,19 @@
 export const gameGroups = [
   {
     id: 1,
-    name: "Die Wölfe",
+    name: "Labubu",
     code: "WOLF1998",
     color: "#8e44ad", // Lila
   },
   {
     id: 2,
-    name: "Die Drachen",
+    name: "Die Schlümpfe",
     code: "DRC4",
     color: "#e74c3c", // Rot
   },
   {
     id: 3,
-    name: "Die Wächter",
+    name: "Yeeeeeee team",
     code: "WDW7",
     color: "#27ae60", // Grün
   },
@@ -28,14 +28,8 @@ export const gameGroups = [
   },
   {
     id: 5,
-    name: "Die Sonnenfalken",
+    name: "Player 456",
     code: "FALK",
     color: "#f39c12", // Orange
   },
-  {
-    id: 6,
-    name: "Die Eisernen Golems",
-    code: "GLM9",
-    color: "#7f8c8d", // Grau
-  },
-  ];
+];
