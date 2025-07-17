@@ -18,8 +18,9 @@
         <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
       </div>
       <div class="session-info">
-        <span
-          ><span data-translate="team_text">Team</span>:
+        <span id="team-avatar-display" style="font-size:1.5em; vertical-align:middle;"></span>
+        <span>
+          <span data-translate="team_text">Team</span>:
           <strong id="display-team-name"></strong
         ></span>
         <a href="#" id="logout-btn" data-translate="logout_btn_text"
@@ -88,9 +89,15 @@
       </div>
     </template>
 
+    <div id="tasks-progressbar" aria-label="Fortschritt Aufgaben" style="margin-bottom:20px;">
+      <div style="background:#eee; border-radius:8px; height:18px;">
+        <div id="tasks-progressbar-inner" style="background:var(--primary-color); height:100%; border-radius:8px; width:0%; transition:width 0.5s;"></div>
+      </div>
+      <div id="tasks-progressbar-label" style="text-align:right; font-size:0.9em; margin-top:2px;"></div>
+    </div>
+
     <script type="module" src="firebase-init.js"></script>
     <script type="module" src="translations.js"></script>
-    <script type="module" src="data.js"></script>
     <script type="module" src="aufgaben.js"></script>
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>

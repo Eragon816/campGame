@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -48,12 +47,10 @@
         class="login-container"
         style="display: none"
       >
-        <!-- NEU: data-translate Attribut -->
         <h1 data-translate="join_group_title">Gruppe beitreten</h1>
         <div class="form-container">
           <div class="form-box">
             <select id="group-select" class="input-field">
-              <!-- NEU: data-translate Attribut -->
               <option value="" data-translate="group_select_placeholder">
                 -- Wähle deine Gruppe --
               </option>
@@ -66,6 +63,31 @@
               class="input-field"
               data-translate="group_code_placeholder"
             />
+            <!-- Avatar-Auswahl START -->
+            <label
+              for="avatar-select"
+              style="margin-top: 10px"
+              aria-label="Avatar auswählen"
+            >
+              <span data-translate="avatar_select_label">Avatar wählen:</span>
+            </label>
+            <select
+              id="avatar-select"
+              class="input-field"
+              aria-label="Avatar auswählen"
+            >
+              <option value="🐱">🐱 Katze</option>
+              <option value="🐶">🐶 Hund</option>
+              <option value="🦊">🦊 Fuchs</option>
+              <option value="🐼">🐼 Panda</option>
+              <option value="🐸">🐸 Frosch</option>
+              <option value="🦁">🦁 Löwe</option>
+              <option value="🐵">🐵 Affe</option>
+              <option value="🐧">🐧 Pinguin</option>
+              <option value="🐻">🐻 Bär</option>
+              <option value="🐨">🐨 Koala</option>
+            </select>
+            <!-- Avatar-Auswahl ENDE -->
             <button
               id="join-group-btn"
               class="form-button primary"
@@ -90,8 +112,8 @@
     <!-- Die Skripte werden jetzt als Module geladen -->
     <script type="module" src="firebase-init.js"></script>
     <script type="module" src="translations.js"></script>
-    <!-- NEU -->
     <script type="module" src="groups.js"></script>
+    <!-- KORRIGIERT: Fehlerhafte HTML-Struktur bereinigt -->
     <script type="module" src="login.js"></script>
     <script type="module" src="background.js"></script>
     <script type="module" src="global.js"></script>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finale Lösung - Der Hayat-Code</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page-title-key="finale_page_title">
+    <div class="fixed-controls">
+      <div>
+        <button id="mute-btn" aria-label="Ton an/aus"><span>🔊</span></button>
+        <button id="theme-btn" aria-label="Farbschema wechseln">
+          <span>☀️</span>
+        </button>
+        <button id="lang-btn" aria-label="Sprache wechseln">AR</button>
+      </div>
+      <div class="session-info">
+        <span
+          id="team-avatar-display"
+          style="font-size: 1.5em; vertical-align: middle"
+        ></span>
+        <span
+          ><span data-translate="team_text">Team</span>:
+          <strong id="display-team-name"></strong
+        ></span>
+        <a href="#" id="logout-btn" data-translate="logout_btn_text"
+          >Team verlassen</a
+        >
+      </div>
+    </div>
+
+    <canvas id="canvas-background"></canvas>
+
+    <div class="content-wrapper scrollable">
+      <div class="page-container">
+        <header class="page-header">
+          <h2 data-translate="finale_title">Finale Lösung</h2>
+          <a href="menu.html" class="back-button">
+            <span class="back-arrow">←</span>
+            <span class="back-text" data-translate="back_to_menu_btn"
+              >Zurück zum Menü</span
+            >
+          </a>
+        </header>
+        <main class="page-content">
+          <p
+            data-translate="finale_intro_text"
+            style="text-align: center; margin-bottom: 2rem"
+          ></p>
+          <div id="suspect-list" class="suspects-list">
+            <!-- Verdächtige werden hier per JS eingefügt -->
+          </div>
+          <div
+            id="final-feedback"
+            style="
+              min-height: 2em;
+              margin-top: 2rem;
+              text-align: center;
+              color: var(--success-color);
+              font-weight: bold;
+            "
+          ></div>
+        </main>
+      </div>
+    </div>
+
+    <script type="module">
+      import { db } from "./firebase-init.js";
+      // KORRIGIERT: onValue statt get importieren
+      import {
+        ref,
+        set,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+      import { translations } from "./translations.js";
+
+      const suspects = [
+        { name: "Mahmoud", avatar: "🎧" },
+        { name: "Majd", avatar: "📱" },
+        { name: "Esther", avatar: "😠" },
+        { name: "Rami", avatar: "🎮" },
+        { name: "Motaz", avatar: "🧠" },
+      ];
+
+      const groupCode = localStorage.getItem("eragon-group-code");
+      if (!groupCode) {
+        window.location.href = "index.html";
+      }
+
+      const suspectList = document.getElementById("suspect-list");
+      const feedback = document.getElementById("final-feedback");
+      let selectedSuspect = null;
+
+      function renderSuspects() {
+        suspectList.innerHTML = "";
+        suspects.forEach((suspect) => {
+          const card = document.createElement("div");
+          card.className = "suspect-card";
+          card.style.cursor = "pointer";
+
+          // Nutzt die .active Klasse für die Hervorhebung
+          if (suspect.name === selectedSuspect) {
+            card.classList.add("active");
+          }
+
+          card.innerHTML = `
+                    <div class="suspect-emoji">${suspect.avatar}</div>
+                    <h3 class="suspect-name">${suspect.name}</h3>
+                `;
+
+          card.addEventListener("click", async () => {
+            // Nur speichern, wenn eine neue Auswahl getroffen wird
+            if (selectedSuspect !== suspect.name) {
+              await saveSelection(suspect.name);
+            }
+          });
+          suspectList.appendChild(card);
+        });
+      }
+
+      async function saveSelection(name) {
+        const lang = localStorage.getItem("language") || "de";
+        const trans = translations[lang];
+        try {
+          await set(ref(db, "finalAnswers/" + groupCode), {
+            suspect: name,
+            timestamp: new Date().toISOString(),
+          });
+          // Das Feedback wird jetzt nur noch angezeigt, wenn man selbst klickt
+          feedback.textContent = trans.finale_feedback_success;
+          // Nach 3 Sekunden Feedback ausblenden
+          setTimeout(() => {
+            feedback.textContent = "";
+          }, 3000);
+        } catch (err) {
+          console.error("Save error:", err);
+          feedback.textContent = trans.finale_feedback_error;
+        }
+      }
+
+      // KORRIGIERT: Funktion, die auf Änderungen in der DB lauscht
+      function syncFinalAnswer() {
+        const finalAnswerRef = ref(db, "finalAnswers/" + groupCode);
+        onValue(finalAnswerRef, (snapshot) => {
+          if (snapshot.exists() && snapshot.val().suspect) {
+            selectedSuspect = snapshot.val().suspect;
+          } else {
+            selectedSuspect = null;
+          }
+          // Bei jeder Änderung in der DB wird die Anzeige neu gerendert
+          renderSuspects();
+        });
+      }
+
+      // Listener starten
+      syncFinalAnswer();
+    </script>
+    <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="translations.js"></script>
+    <script type="module" src="background.js"></script>
+    <script type="module" src="global.js"></script>
+  </body>
+</html>

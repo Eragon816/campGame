@@ -21,6 +21,7 @@ export const translations = {
     join_group_title: "Gruppe beitreten",
     group_select_placeholder: "-- Wähle deine Gruppe --",
     group_code_placeholder: "Gruppen-Code eingeben",
+    avatar_select_label: "Avatar wählen:",
     join_group_btn: "Spiel starten",
     login_error_empty: "Bitte wähle eine Gruppe und gib den Code ein.",
     login_error_wrong: "Der Gruppen-Code ist falsch. Versuche es erneut.",
@@ -31,6 +32,7 @@ export const translations = {
     menu_button_verdaechtigte: "Verdächtigte",
     menu_button_hinweise: "Hinweise",
     menu_button_aufgaben: "Aufgaben",
+    menu_button_finale: "Finale Lösung abgeben",
 
     // Fall-Seite (fall.html)
     fall_page_title: "Der Fall - Der Hayat-Code",
@@ -58,6 +60,14 @@ export const translations = {
       '"Ja, ich war sauer, weil das WLAN für die Online-Games so mies ist. Ich bin in den Keller, um mich abzureagieren. Als ich hochkam, war Esther total komisch zu mir. Keine Ahnung, was ihr Problem ist. Mit dem Pokal hab ich nichts am Hut."',
     suspect_motaz_quote:
       '"Ich war auf meinem Zimmer und habe gelesen. Ich bin nur einmal kurz runter, um am Automaten was zu trinken zu holen. Da schien noch alles normal zu sein. Ich finde es aber seltsam, dass der Pokal einfach so verschwindet, wenn doch die ganze Zeit jemand wie Mahmoud direkt davor saß."',
+
+    // Finale-Seite (finale.html) - NEU
+    finale_page_title: "Finale Lösung - Der Hayat-Code",
+    finale_title: "Finale Lösung",
+    finale_intro_text:
+      "Wer war der Täter? Wählt weise, eure Entscheidung wird gespeichert. Die Auflösung erfolgt gemeinsam am Ende des Spiels.",
+    finale_feedback_success: "Eure Auswahl wurde gespeichert!",
+    finale_feedback_error: "Fehler beim Speichern. Bitte versucht es erneut.",
 
     // Hinweise-Seite (hinweise.html)
     clues_page_title: "Hinweise - Der Hayat-Code",
@@ -282,6 +292,7 @@ export const translations = {
     join_group_title: "انضم إلى فريقك",
     group_select_placeholder: "-- اختر فريقك --",
     group_code_placeholder: "أدخل رمز الفريق",
+    avatar_select_label: "اختر رمزك:",
     join_group_btn: "ابدأ اللعب",
     login_error_empty: "الرجاء اختيار فريق وإدخال الرمز.",
     login_error_wrong: "رمز الفريق غير صحيح. حاول مجدداً.",
@@ -292,6 +303,7 @@ export const translations = {
     menu_button_verdaechtigte: "المشتبه بهم",
     menu_button_hinweise: "الأدلة",
     menu_button_aufgaben: "المهام",
+    menu_button_finale: "تسليم الحل النهائي",
 
     // Fall-Seite (fall.html)
     fall_page_title: "القضية - شيفرة حياة",
@@ -318,6 +330,14 @@ export const translations = {
       '"إيه كنت معصب، لأن النت كان زبالة والألعاب عم تقطّع. نزلت على القبو لأروّق شوي. لما طلعت، كانت إستر عم تتصرف بغرابة معي. ما بعرف شبها. الكأس ما إلي علاقة فيه."',
     suspect_motaz_quote:
       '"كنت بغرفتي عم أقرأ. نزلت مرة وحدة بس لأشتري مي من الماكينة. وقتها كان كل شي طبيعي. بس مستغرب كيف الكأس بيختفي ومحمود كان قاعد جنبه كل الوقت."',
+
+    // Finale-Seite (finale.html) - NEU
+    finale_page_title: "الحل النهائي - شيفرة حياة",
+    finale_title: "الحل النهائي",
+    finale_intro_text:
+      "من كان الجاني؟ اختاروا بحكمة، سيتم حفظ اختياركم. سيتم الكشف عن الحل معاً في نهاية اللعبة.",
+    finale_feedback_success: "تم حفظ اختياركم بنجاح!",
+    finale_feedback_error: "خطأ في الحفظ. الرجاء المحاولة مرة أخرى.",
 
     // Hinweise-Seite (hinweise.html)
     clues_page_title: "الأدلة - شيفرة حياة",

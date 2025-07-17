@@ -1,4 +1,3 @@
-
 // global.js - Enthält ALLE gemeinsamen und globalen Funktionen
 import { translations } from "./translations.js";
 
@@ -17,34 +16,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const lang = localStorage.getItem("language") || "de";
     const trans = translations[lang];
 
-    document.querySelectorAll("[data-translate]").forEach(el => {
-        const key = el.dataset.translate;
-        if (trans[key]) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = trans[key];
-            } else {
-                el.innerHTML = trans[key];
-            }
+    document.querySelectorAll("[data-translate]").forEach((el) => {
+      const key = el.dataset.translate;
+      if (trans[key]) {
+        if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+          el.placeholder = trans[key];
+        } else {
+          el.innerHTML = trans[key];
         }
+      }
     });
-    
+
     // Setzt den Titel des HTML-Dokuments
     const pageTitleKey = document.body.dataset.pageTitleKey;
     if (pageTitleKey && trans[pageTitleKey]) {
-        document.title = trans[pageTitleKey];
+      document.title = trans[pageTitleKey];
     }
 
     // Setzt die Sprache und Textrichtung für CSS
     document.documentElement.lang = lang;
-    document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.body.classList.toggle('lang-ar', lang === 'ar');
+    document.body.dir = lang === "ar" ? "rtl" : "ltr";
+    document.body.classList.toggle("lang-ar", lang === "ar");
   };
 
   const setLanguage = (lang) => {
     currentLang = lang;
     localStorage.setItem("language", lang);
     if (langBtn) {
-        langBtn.textContent = translations[lang].lang_btn_text;
+      langBtn.textContent = translations[lang].lang_btn_text;
     }
     applyTranslations();
     // Eigene Events auslösen, damit andere Skripte reagieren können (z.B. Aufgaben neu rendern)
@@ -57,10 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
       setLanguage(newLang);
     });
   }
-  
+
   // Initiale Sprache setzen
   setLanguage(currentLang);
-
 
   // --- 2. THEME-LOGIK ---
   const themeBtn = document.getElementById("theme-btn");
@@ -68,10 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.remove("light-mode", "dark-mode");
     document.body.classList.add(theme + "-mode");
     if (themeBtn) {
-      themeBtn.innerHTML = theme === "dark" ? "<span>☀️</span>" : "<span>🌙</span>";
+      themeBtn.innerHTML =
+        theme === "dark" ? "<span>☀️</span>" : "<span>🌙</span>";
     }
     localStorage.setItem("theme", theme);
-    window.dispatchEvent(new CustomEvent("themeChanged", { detail: { theme: theme } }));
+    window.dispatchEvent(
+      new CustomEvent("themeChanged", { detail: { theme: theme } })
+    );
   };
 
   if (themeBtn) {
@@ -116,9 +117,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isMuted) return;
     let soundToPlay;
     switch (soundType) {
-      case "click": soundToPlay = clickSound; break;
-      case "success": soundToPlay = successSound; break;
-      case "error": soundToPlay = errorSound; break;
+      case "click":
+        soundToPlay = clickSound;
+        break;
+      case "success":
+        soundToPlay = successSound;
+        break;
+      case "error":
+        soundToPlay = errorSound;
+        break;
     }
     if (soundToPlay) {
       soundToPlay.currentTime = 0;
@@ -138,18 +145,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateMuteState();
 
-
   // --- 4. SESSION-INFO & LOGOUT-LOGIK ---
   const teamNameDisplay = document.querySelector("#display-team-name");
   const logoutBtn = document.querySelector("#logout-btn");
-  const teamTextSpan = document.querySelector("#team-text-span");
+  const teamAvatarDisplay = document.getElementById("team-avatar-display"); // KORRIGIERT: Avatar-Element holen
 
   if (teamNameDisplay) {
     const teamName = localStorage.getItem("eragon-team-name");
     if (teamName) {
       teamNameDisplay.textContent = teamName;
     } else {
-      window.location.href = "index.html";
+      // Wenn kein Teamname da ist, zurück zum Login
+      if (!window.location.pathname.endsWith("index.html")) {
+        window.location.href = "index.html";
+      }
+    }
+  }
+
+  // KORRIGIERT: Avatar-Anzeige-Logik hierher verschoben
+  if (teamAvatarDisplay) {
+    const teamAvatar = localStorage.getItem("eragon-team-avatar");
+    if (teamAvatar) {
+      teamAvatarDisplay.textContent = teamAvatar;
     }
   }
 
@@ -157,29 +174,48 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       window.playSound("click");
-      
-      localStorage.removeItem("eragon-team-name");
-      localStorage.removeItem("eragon-group-id");
-      localStorage.removeItem("eragon-group-code");
-      localStorage.removeItem("eragon-group-color");
+
+      // Alle relevanten Daten aus dem Local Storage entfernen
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("eragon-") || key.startsWith("avatar-for-group-")) {
+          localStorage.removeItem(key);
+        }
+      });
       localStorage.removeItem("music-was-started");
       localStorage.removeItem("theme");
       localStorage.removeItem("isMuted");
-      localStorage.removeItem("language"); // Sprache zurücksetzen
-      
-      setTimeout(() => { window.location.href = "index.html"; }, 150);
+      localStorage.removeItem("language");
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 150);
     });
   }
 
   // --- 5. GLOBALE BUTTON-KLICK-SOUNDS ---
-  document.querySelectorAll(".form-button, .menu-button, .back-button, #modal-close-btn, #enter-game-btn")
+  document
+    .querySelectorAll(
+      ".form-button, .menu-button, .back-button, #modal-close-btn, #enter-game-btn, .suspect-card"
+    )
     .forEach((button) => {
       button.addEventListener("click", (e) => {
-        window.playSound("click");
-        if (button.tagName === "A" && button.href && !button.href.endsWith("#")) {
+        // Verhindert Klick-Sound für non-A-Tags, die ein A-Tag als Parent haben (doppelter Sound)
+        if (e.target.closest("a") !== button && button.tagName !== "A") {
+          // do nothing
+        } else {
+          window.playSound("click");
+        }
+
+        if (
+          button.tagName === "A" &&
+          button.href &&
+          !button.href.endsWith("#")
+        ) {
           e.preventDefault();
           const destination = button.href;
-          setTimeout(() => { window.location.href = destination; }, 150);
+          setTimeout(() => {
+            window.location.href = destination;
+          }, 150);
         }
       });
     });

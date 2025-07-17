@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         saveProgress();
         showHintModal(task.clueId);
+        showConfetti(); // NEU: Konfetti nach erfolgreichem Abschluss
       }
     } else {
       window.playSound("error");
@@ -198,8 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cardElement.querySelector(".task-description").textContent =
         taskTranslation.description;
 
-      // ENTFERNT: Die Tages-Anzeige wird nicht mehr befüllt
-
       const dayColor = dayColors[task.day] || "var(--primary-color)";
       cardElement.style.setProperty("--task-day-color", dayColor);
 
@@ -229,6 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p style="text-align: center;">${trans.tasks_all_done_text}</p>
             </div>`;
     }
+
+    updateProgressbar(progress.completedTasks.length, tasks.length);
   }
 
   tasksListContainer.addEventListener("click", (e) => {
@@ -261,6 +262,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("languageChanged", renderPage);
 
+  // KORRIGIERT: Die Avatar-Anzeige-Logik wurde nach global.js verschoben,
+  // da sie auf jeder Seite benötigt wird.
+
   showLoader(true);
   syncProgress();
 });
+
+function showConfetti() {
+  const confetti = document.createElement("div");
+  confetti.textContent = "🎉";
+  confetti.style.position = "fixed";
+  confetti.style.left = "50%";
+  confetti.style.top = "30%";
+  confetti.style.zIndex = 9999;
+  confetti.style.pointerEvents = "none";
+  confetti.style.fontSize = "4rem";
+  document.body.appendChild(confetti);
+  setTimeout(() => confetti.remove(), 1500);
+}
+
+function updateProgressbar(completed, total) {
+  const progressbar = document.getElementById("tasks-progressbar-inner");
+  const progressLabel = document.getElementById("tasks-progressbar-label");
+  if (progressbar && progressLabel) {
+    const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+    progressbar.style.width = percent + "%";
+    progressLabel.textContent = `${completed} / ${total} erledigt (${percent}%)`;
+  }
+}
+
+// KORRIGIERT: Unbenutzte Funktion `renderHint` wurde entfernt, um den Code sauber zu halten.
