@@ -64,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       (g) => g.id.toString() === selectedGroupId
     );
 
-    if (selectedGroup && selectedGroup.code === enteredCode) {
+    // KORRIGIERT: Der Vergleich ist jetzt Case-Insensitive, indem beide Seiten in Großbuchstaben umgewandelt werden.
+    if (selectedGroup && selectedGroup.code.toUpperCase() === enteredCode) {
       localStorage.setItem("eragon-team-name", selectedGroup.name);
       localStorage.setItem("eragon-group-id", selectedGroup.id);
       localStorage.setItem("eragon-group-code", selectedGroup.code);
