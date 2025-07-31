@@ -5,31 +5,31 @@ export const gameGroups = [
   {
     id: 1,
     name: "Labubu",
-    code: "WOLF1998",
+    code: "Host123",
     color: "#8e44ad", // Lila
   },
   {
     id: 2,
     name: "Die Schlümpfe",
-    code: "DRC4",
-    color: "#e74c3c", // Rot
+    code: "Blabla",
+    color: "#2980b9", // Rot
   },
   {
     id: 3,
     name: "Yeeeeeee team",
-    code: "WDW7",
+    code: "Ahhahha",
     color: "#27ae60", // Grün
   },
   {
     id: 4,
     name: "Die Sterne",
-    code: "SYND",
-    color: "#2980b9", // Blau
+    code: "123456b",
+    color: "#a8a4a4ff", // Blau
   },
   {
     id: 5,
     name: "Player 456",
-    code: "FALK",
+    code: "Sadness",
     color: "#f39c12", // Orange
   },
 ];
