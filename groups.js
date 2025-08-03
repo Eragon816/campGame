@@ -1,8 +1,7 @@
 // groups.js - Definition der festen Spielgruppen
 
 // NEU: "export" hinzugefügt, damit andere Module diese Variable importieren können.
-export const gameGroups = [Lila
-  },
+export const gameGroups = [
   {
     id: 1,
     name: "Die Schlümpfe",
@@ -32,5 +31,7 @@ export const gameGroups = [Lila
     id: 5,
     name: "Labubu",
     code: "Host123",
-    color: "#8e44ad", // 
+    color: "#8e44ad", // Lila
+  },
 ];
+
