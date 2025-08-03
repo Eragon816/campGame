@@ -33,7 +33,14 @@ export const gameGroups = [
     code: "Host1234",
     color: "#8e44ad", // Lila
   },
+   {
+    id: 6,
+    name: "Spongi",
+    code: "s123456",
+    color: "#8e44ad", // Lila
+  },
 ];
+
 
 
 
