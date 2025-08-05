@@ -20,17 +20,17 @@ export const gameGroups = [
     code: "123456b",
     color: "#a8a4a4ff", // Blau
   },
+
   {
     id: 4,
-    name: "Player 456",
-    code: "Sadness",
+    name: "Player2244",
+    code: "lol123",
     color: "#f39c12", // Orange
   },
-  
   {
     id: 5,
-    name: "Labubu1231",
-    code: "Host1234",
+    name: "Labubububu",
+    code: "xd123",
     color: "#8e44ad", // Lila
   },
    {
@@ -40,6 +40,7 @@ export const gameGroups = [
     color: "#8e44ad", // Lila
   },
 ];
+
 
 
 
