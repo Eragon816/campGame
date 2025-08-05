@@ -39,7 +39,14 @@ export const gameGroups = [
     code: "s123456",
     color: "#8e44ad", // Lila
   },
+   {
+    id: 7,
+    name: "baum",
+    code: "b123456",
+    color: "#8e44ad", // Lila
+  },
 ];
+
 
 
 
